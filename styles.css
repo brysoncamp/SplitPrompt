@@ -1,0 +1,17 @@
+/* Default to light theme */
+:root {
+    --background-color: red;
+}
+
+/* If the theme is set to dark */
+:root[data-theme="dark"] {
+    --background-color: black;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--background-color);
+}

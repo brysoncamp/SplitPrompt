@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Parcel Sandbox</title>
+    <meta charset="UTF-8" />
+    <script>
+        let storedTheme = localStorage.getItem("theme");
+        let prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        document.documentElement.dataset.theme = storedTheme ?? (prefersDark ? "dark" : "light");
+    </script>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+
+  <body>
+    <button id="theme-toggle">CHANGE THEME</button>
+    <script src="index.mjs" type="module"></script>
+  </body>
+</html>
