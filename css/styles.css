@@ -1,11 +1,25 @@
-/* Default to light theme */
 :root {
-    --background-color: red;
+    --background-color: #ffffff;
 }
 
-/* If the theme is set to dark */
 :root[data-theme="dark"] {
-    --background-color: black;
+    --background-color: #141414;
+}
+
+#sun-svg {
+    display: none;
+}
+
+#moon-svg {
+    display: block;
+}
+
+:root[data-theme="dark"] #sun-svg {
+    display: block;
+}
+
+:root[data-theme="dark"] #moon-svg {
+    display: none;
 }
 
 body {
@@ -14,4 +28,26 @@ body {
     width: 100vw;
     height: 100vh;
     background-color: var(--background-color);
+}
+
+.header {
+    width: 100vw;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+}
+
+.theme-toggle {
+    margin: 1rem 1rem 0rem 0rem;
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.theme-toggle:hover {
+    cursor: pointer;
+}
+
+.theme-svg {
+    width: 1.5rem;
+    height: 1.5rem;
 }
