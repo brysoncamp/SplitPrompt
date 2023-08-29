@@ -1,9 +1,18 @@
+@font-face {
+    font-family: 'Sen';
+    src: url('../assets/fonts/Sen-Regular.ttf') format('ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
 :root {
-    --background-color: #ffffff;
+    --background-color: #f8f8f8;
+    --font-color: #141414;
 }
 
 :root[data-theme="dark"] {
     --background-color: #141414;
+    --font-color: #f8f8f8;
 }
 
 #sun-svg {
@@ -28,6 +37,9 @@ body {
     width: 100vw;
     height: 100vh;
     background-color: var(--background-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .header {
@@ -50,4 +62,62 @@ body {
 .theme-svg {
     width: 1.5rem;
     height: 1.5rem;
+}
+
+h1 {
+    font-family: "Sen", Arial, Helvetica, Tahoma, "Trebuchet MS", sans-serif;
+    color: var(--font-color);
+}
+
+p {
+    font-family: Roboto, sans-serif;
+    color: var(--font-color);
+    margin-top: -1rem;
+    font-size: 1rem;
+    line-height: 1.6rem;
+    margin-left: 1px;
+}
+
+
+.circle {
+    margin-top: 2.3rem;
+    position: absolute;
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 50%;
+    background-color: var(--font-color);
+    transform: translateY(-50%);
+    animation: 2s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+}
+
+
+#circle1 {
+    animation-name: rotateLeft;
+}
+
+#circle2 {
+    animation-name: rotateRight;
+}
+
+@keyframes rotateLeft {
+    100% {
+        transform: translateY(-100%) rotate(-45deg);
+    }
+}
+
+@keyframes rotateRight {
+    100% {
+        transform: translateY(0%) rotate(45deg);
+    }
+}
+
+
+.ltr {
+    display: flex;
+}
+
+.logo {
+    width: 3rem;
+    display: flex;
+    align-items: center;
 }
