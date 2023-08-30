@@ -1,6 +1,8 @@
 @font-face {
     font-family: 'Sen';
-    src: url('../assets/fonts/Sen-Regular.ttf') format('ttf');
+    src:  url('../assets/fonts/Sen-Regular.woff2') format('woff2'),
+          url('../assets/fonts/Sen-Regular.woff') format('woff'),
+          url('../assets/fonts/Sen-Regular.ttf') format('ttf');
     font-weight: normal;
     font-style: normal;
 }
