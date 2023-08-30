@@ -7,14 +7,23 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'Roboto';
+    src: url('../assets/fonts/Roboto-Medium.ttf') format('ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
 :root {
     --background-color: #f8f8f8;
+    --textarea-color: #ffffff;
     --font-color: #141414;
 }
 
 :root[data-theme="dark"] {
     --background-color: #141414;
-    --font-color: #f8f8f8;
+    --textarea-color: #242424;
+    --font-color: #e0e0e0;
 }
 
 #sunSvg {
@@ -25,12 +34,16 @@
     display: block;
 }
 
-:root[data-theme="dark"] #sunSvg {
+[data-theme="dark"] #sunSvg {
     display: block;
 }
 
-:root[data-theme="dark"] #moonSvg {
+[data-theme="dark"] #moonSvg {
     display: none;
+}
+
+[data-theme="dark"] .text-area {
+    border: none;
 }
 
 html, body {
@@ -76,7 +89,7 @@ body {
 }
 
 .subtitle-text {
-    font-family: Roboto, sans-serif;
+    font-family: "Roboto", sans-serif;
     color: var(--font-color);
     margin-top: -1rem;
     font-size: 0.85rem;
@@ -132,6 +145,90 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.command-text {
+    color: var(--font-color);
+    font-family: "Sen", Arial, sans-serif;
+    font-size: 1rem;
+    margin-left: 1.2rem;
+}
+
+.main-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 0rem 0rem 1rem 0rem;
+}
+
+.input-container {
+    margin:  0rem 2rem 2rem 2rem;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.text-area {
+    background-color: var(--textarea-color);
+    color: var(--font-color);
+    box-sizing: border-box;
+    padding: 0.5rem;
+    width: 100%;
+    height: 100%;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    border: medium none;  
+    border-radius: 8px;
+    resize: none;
+    outline: none;
+    font-family: "Roboto", sans-serif;
+    border: 2px dashed var(--font-color);
+}
+
+.text-area:focus {
+    border: 2px solid var(--font-color);
+}
+
+p {
+    color: var(--font-color);
+}
+
+.p2 {
+    background-color: white;
+    color: black;
+    /*font-weight: bold;
+    text-decoration: underline;
+    /*
+    background-color: black;
+    color: black;
+    border-radius: 4px;
+    /*font-weight: bold;
+    text-decoration: underline;*/
+    /*
+    background-color: var(--font-color);
+    border-radius: 4px;
+    color: white;*/
+
+}
+
+.top-container {
+    width: 100%;
+}
+
+.output-container {
+    width: 100%;
+    height: 100%;
+}
+
+::placeholder {
+    color: #777777;
+    font-size: 14px;
+    font-style: "Roboto";
 }
 
 @media (min-width: 22rem) {

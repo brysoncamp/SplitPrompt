@@ -33,6 +33,18 @@
             <p class="subtitle-text">Split long prompts into ChatGPT-friendly chunks</p>
         </div>
     </div>
-    <script src="js/script.mjs" type="module"></script>
+    <div class="top-container">
+      <h2 class="command-text">Paste Your Prompt</h2>
+    </div>
+    <div class="main-container">
+      <div class="input-container">
+        <div contenteditable="true" id="textArea" class="text-area" spellcheck="false" placeholder="Enter prompt here or..."></div>
+        <div class="highlightedArea"></div>
+      </div>
+      <div class="output-container"></div>
+    </div>
+    <p id="count">0</p>
+    <script src="https://unpkg.com/gpt-tokenizer"></script>
+    <script src="js/script.js"></script>
 </body>
 </html>
