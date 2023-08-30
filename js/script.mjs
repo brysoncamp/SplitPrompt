@@ -1,13 +1,12 @@
 const colorPreference = window.matchMedia("(prefers-color-scheme: dark)");
 
 colorPreference.addEventListener("change", (event) => {
-  const theme = event.matches ? "dark" : "light";
-  console.log(theme);
-  document.documentElement.dataset.theme = theme;
+  const preferredTheme = event.matches ? "dark" : "light";
+  document.documentElement.dataset.theme = preferredTheme;
   localStorage.removeItem("theme");
 });
 
-const themeToggle = document.getElementById("theme-toggle");
+const themeToggle = document.getElementById("themeToggle");
 
 themeToggle.addEventListener("click", () => {
   const currentTheme = document.documentElement.dataset.theme;
@@ -15,4 +14,3 @@ themeToggle.addEventListener("click", () => {
   document.documentElement.dataset.theme = newTheme;
   localStorage.setItem("theme", newTheme);
 });
-
