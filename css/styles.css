@@ -8,7 +8,8 @@
 
 @font-face {
     font-family: 'Roboto';
-    src: url('../assets/fonts/Roboto-Medium.ttf') format('ttf');
+    src: url('../assets/fonts/Roboto-Regular.woff2') format('woff2'),
+         url('../assets/fonts/Roboto-Regular.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
@@ -72,7 +73,7 @@ body {
 }
 
 .theme-toggle {
-    margin: 1rem;
+    margin:0.5rem;
     width: 1.5rem;
     height: 1.5rem;
     cursor: pointer;
@@ -89,7 +90,7 @@ body {
 .title-text {
     font-family: "Sen", Arial, sans-serif;
     color: var(--font-color);
-    font-size: 2rem;
+    font-size: 1.6rem;
     margin: 0;
 }
 
@@ -97,7 +98,7 @@ body {
     font-family: "Roboto", sans-serif;
     color: var(--font-color);
     /*margin-top: -1rem;*/
-    font-size: 0.85rem;
+    font-size: 0.6rem;
     line-height: 1.6rem;
     font-weight: 100;
     margin: 0;
@@ -144,22 +145,19 @@ body {
 
 .brand-container {
     display: flex;
-
 }
 
 .logo-container {
-
-    width: 4rem;
-    display: flex;
-    justify-content: center;
-
-    align-items: center;
+    width: 2.2rem;
+    display: none;
     
+    align-items: center;
 }
 
 .title-container {
     display: flex;
     flex-direction: column;
+    text-align: center;
 }
 
 .main-container {
@@ -174,7 +172,7 @@ body {
 
 .input-container {
     width: 100%;
-    height: 100%;
+    height: 60%;
     border: 2px solid #c8c8c8;
     box-sizing: border-box;
     /*overflow: hidden;*/
@@ -234,6 +232,9 @@ body {
     font-weight: bold;
     text-align: right;
     font-family: "Sen", Helvetica, sans-serif;
+    white-space: nowrap;      
+    overflow: hidden;       
+    text-overflow: ellipsis; 
 }
 
 .clear-button {
@@ -385,8 +386,8 @@ select.gpt-option option:hover {
     height: auto;*/
 }
 
-/*
-@media (min-width: 22rem) {
+
+@media (min-width: 16rem) {
     .title-container {
         align-items: normal;
     }
@@ -398,7 +399,7 @@ select.gpt-option option:hover {
     .logo-container {
         display: flex;
     }
-}*/
+}
 
 /*
 @media (min-width: 45rem) {
