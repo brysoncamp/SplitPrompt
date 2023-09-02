@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Split Prompt - Bypass ChatGPT Token Limit</title>
+    <meta name="description" content="Exceed ChatGPT's word and character limits with Split Prompt. Send longer prompts by splitting them into 2048-token chunks.">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+      let storedTheme = localStorage.getItem("theme");
+      let prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      document.documentElement.dataset.theme = storedTheme ?? (prefersDark ? "dark" : "light");
+    </script>
+    <link rel="icon" href="assets/svg/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="assets/images/favicon-dark-32x32.png" type="image/png" sizes="32x32" media="(prefers-color-scheme: dark)">
+    <link rel="icon" href="assets/images/favicon-dark-16x16.png" type="image/png" sizes="16x16" media="(prefers-color-scheme: dark)">
+    <link rel="icon" href="assets/images/favicon-light-32x32.png" type="image/png" sizes="32x32">
+    <link rel="icon" href="assets/images/favicon-light-16x16.png" type="image/png" sizes="16x16">
+    <link rel="stylesheet" href="css/styles2.css">
+</head>
+<body>
+    <div itemscope itemtype="https://schema.org/WebSite">
+      <meta itemprop="url" content="https://www.splitprompt.com/"/>
+      <meta itemprop="name" content="Split Prompt"/>
+    </div>
+    <div class="header-container">
+        <div id="themeToggle" class="theme-toggle" tabindex="0" role="button" aria-pressed="false">
+          <svg id="sunSvg" viewBox="0 0 24 24" class="theme-svg" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4" fill="#eeeeee"/><path stroke="#eeeeee" stroke-linecap="round" stroke-width="2" d="M12 5V3M12 21v-2M16.95 7.05l1.41-1.41M5.64 18.36l1.41-1.41M19 12h2M3 12h2M16.95 16.95l1.41 1.41M5.64 5.64l1.41 1.41"/></svg>
+          <svg id="moonSvg" viewBox="0 0 24 24" class="theme-svg" xmlns="http://www.w3.org/2000/svg"><path fill="#141414" d="M12.06 3.6a1 1 0 0 0-.91-1.56 10 10 0 1 0 10.81 10.81 1 1 0 0 0-1.56-.9 6 6 0 0 1-8.34-8.34Z"/></svg>  
+        </div>
+    </div>
+    <div class="brand-container">
+        <div class="logo-container">
+          <div class="circle-icon" id="circleUpper"></div>
+          <div class="circle-icon" id="circleLower"></div>
+        </div>
+        <div class="title-container">
+            <h1 class="title-text">Split Prompt</h1>
+            <p class="subtitle-text">Split long prompts into ChatGPT-friendly chunks</p>
+        </div>
+    </div>
+    <div class="top-container">
+      <h2 class="command-text">Paste Your Prompt</h2>
+      <button class="clear-button">CLEAR</button>
+    </div>
+    <div class="main-container">
+      <div class="input-container">
+        <textarea id="textArea" class="text-area" spellcheck="false" placeholder="Enter prompt here or..."></textarea>
+      </div>
+      <div class="output-container"></div>
+    </div>
+    <button id="pasteButton">Paste from Clipboard</button>
+    <p id="count">0</p>
+    <script src="https://unpkg.com/gpt-tokenizer"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

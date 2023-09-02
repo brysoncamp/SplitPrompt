@@ -1,0 +1,314 @@
+@font-face {
+    font-family: 'Sen';
+    src:  url('../assets/fonts/Sen-Regular.woff2') format('woff2'),
+          url('../assets/fonts/Sen-Regular.woff') format('woff'),
+          url('../assets/fonts/Sen-Regular.ttf') format('ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('../assets/fonts/Roboto-Medium.ttf') format('ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+:root {
+    --background-color: #f8f8f8;
+    --textarea-color: #ffffff;
+    --font-color: #141414;
+}
+
+:root[data-theme="dark"] {
+    --background-color: #141414;
+    --textarea-color: #242424;
+    --font-color: #e0e0e0;
+}
+
+#sunSvg {
+    display: none;
+}
+
+#moonSvg {
+    display: block;
+}
+
+[data-theme="dark"] #sunSvg {
+    display: block;
+}
+
+[data-theme="dark"] #moonSvg {
+    display: none;
+}
+
+[data-theme="dark"] .text-area {
+    border: none;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    /*background-color: var(--background-color);*/
+    background-color: white;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.header-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+}
+
+.theme-toggle {
+    margin: 1rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.theme-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.title-text {
+    font-family: "Sen", Arial, sans-serif;
+    color: var(--font-color);
+    font-size: 2rem;
+    text-align: center;
+}
+
+.subtitle-text {
+    font-family: "Roboto", sans-serif;
+    color: var(--font-color);
+    margin-top: -1rem;
+    font-size: 0.85rem;
+    line-height: 1.6rem;
+    text-align: center;
+}
+
+.circle-icon {
+    margin-top: 2.3rem;
+    position: absolute;
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 50%;
+    background-color: var(--font-color);
+    transform: translateY(-50%);
+    animation: 2s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+    animation-delay: 0.5s;
+}
+
+#circleUpper {
+    animation-name: moveUp;
+}
+
+#circleLower {
+    animation-name: moveDown;
+}
+
+@keyframes moveUp {
+    100% {
+        transform: translateY(-100%) rotate(-45deg);
+    }
+}
+
+@keyframes moveDown {
+    100% {
+        transform: translateY(0%) rotate(45deg);
+    }
+}
+
+.brand-container {
+    display: flex;
+    margin-top: -3rem;
+}
+
+.logo-container {
+    width: 3rem;
+    display: none;
+    align-items: center;
+}
+
+.title-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 0rem 0rem 1rem 0rem;
+    overflow: hidden;
+}
+
+.input-container {
+    margin:  0rem 2rem 2rem 2rem;
+    width: 100%;
+    height: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+
+
+.text-area {
+    background-color: var(--textarea-color);
+    color: var(--font-color);
+    box-sizing: border-box;
+    padding: 0.5rem;
+    width: 100%;
+    height: 100%;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    border: medium none;  
+    border-radius: 8px;
+    resize: none;
+    outline: none;
+    font-family: "Roboto", sans-serif;
+    border: 2px dashed var(--font-color);
+    overflow-y: auto;
+    white-space: pre-wrap;
+}
+
+.text-area:focus {
+    border: 2px solid var(--font-color);
+}
+
+p {
+    color: var(--font-color);
+}
+
+.p2 {
+    background-color: white;
+    color: black;
+    /*font-weight: bold;
+    text-decoration: underline;
+    /*
+    background-color: black;
+    color: black;
+    border-radius: 4px;
+    /*font-weight: bold;
+    text-decoration: underline;*/
+    /*
+    background-color: var(--font-color);
+    border-radius: 4px;
+    color: white;*/
+
+}
+
+.clear-button {
+    width: 4rem;
+    height: 1.5rem;
+    border-radius: 0.75rem;
+    float: right;
+    margin-left: auto;
+    margin-right: 0.6rem;
+    margin-bottom: 0.1rem;
+    color: var(--font-color);
+    background-color: var(--background-color);
+    font-family: "Sen";
+    font-weight: bold;
+    font-size: 0.8rem;
+    border: none;
+}
+
+.top-container {
+    width: 100%;
+    display: flex;
+    align-items: end;
+    
+}
+
+.command-text {
+    color: var(--font-color);
+    font-family: "Sen", Arial, sans-serif;
+    font-size: 1rem;
+    margin-bottom: 0.4rem;
+    margin-left: 1.2rem;
+}
+
+.output-container {
+    width: 100%;
+    height: 100%;
+}
+
+::placeholder {
+    color: #777777;
+    font-size: 14px;
+    font-style: "Roboto";
+}
+
+@media (min-width: 22rem) {
+    .title-container {
+        align-items: normal;
+    }
+
+    .title-text {
+        text-align: left;
+    }
+
+    .logo-container {
+        display: flex;
+    }
+}
+
+@media (min-width: 45rem) {
+
+    .brand-container {
+        margin-top: 0rem;
+    }
+
+    .subtitle-text {
+        font-size: 1rem;
+    }
+
+
+}
+
+
+::-webkit-scrollbar {
+    width: 6px; /* width of the entire scrollbar */
+
+}
+
+::-webkit-scrollbar-track {
+    background: transparent; /* color of the tracking area */
+}
+
+::-webkit-scrollbar-thumb {
+    background:#cccccc; /* color of the scroll thumb */
+    border-radius: 4px; /* roundness of the scroll thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555; /* color of the scroll thumb when hovering */
+}
+
+/* For Firefox */
+body {
+    scrollbar-width: thin; /* "auto" or "thin" */
+    scrollbar-color: #888 #f1f1f1; /* thumb and track color */
+}
+
+
+

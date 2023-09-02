@@ -1,7 +1,5 @@
 const currentTheme = document.documentElement.dataset.theme;
 const newTheme = currentTheme === "light" ? "dark" : "light";
-console.log(newTheme);
-
 const colorPreference = window.matchMedia("(prefers-color-scheme: dark)");
 
 colorPreference.addEventListener("change", (event) => {
@@ -22,47 +20,53 @@ themeToggle.addEventListener("click", () => {
 const { encode, decode } = GPTTokenizer_cl100k_base;
 
 const textArea = document.getElementById('textArea');
+const clearButton = document.getElementById('clearButton');
 
-// Helper function to save the current selection range
-function saveSelection() {
-  const sel = window.getSelection();
-  if (sel.rangeCount > 0) {
-      return sel.getRangeAt(0);
-  }
-  return null;
-}
-function restoreSelection(range) {
-  if (range && document.contains(range.startContainer) && document.contains(range.endContainer)) {
-      const sel = window.getSelection();
-      sel.removeAllRanges();
-      sel.addRange(range);
-  }
-}
+clearButton.addEventListener('click', function() {
+  textArea.value = "";
+  clearButton.style.display = "none";
+  tokenCount.innerText = "0 TOKENS";
+});
+
+const tokenCount = document.getElementById("tokenCount");
 
 textArea.addEventListener('input', function() {
-  // Save the current selection range
-  const savedRange = saveSelection();
-
-  const text = textArea.innerText;
+  const text = textArea.value;
   const encodedTokens = encode(text);
-
-  document.querySelector("#count").innerText = encodedTokens.length;
-  /*
-  var renderedContent = "";
-  encodedTokens.forEach((token, index) => {
-      const decodedToken = decode([token]);
-      if (index % 2 === 1) { // for every second token
-          renderedContent += `<span class="p2">${decodedToken}</span>`;
-      } else {
-          renderedContent += decodedToken;
-      }
-  });
-
-  textArea.innerHTML = renderedContent;
-
-  // Restore the saved selection range after a short delay
-  setTimeout(() => {
-      textArea.focus();
-      restoreSelection(savedRange);
-  }, 0);*/
+  tokenCount.innerText = encodedTokens.length + " TOKENS";
+  //document.querySelector("#count").innerText = encodedTokens.length;
+  if (text != "") {
+    clearButton.style.display = "block";
+  } else {
+    clearButton.style.display = "none";
+  }
 });
+
+textArea.addEventListener('focus', function() {
+  this.parentElement.classList.add('focused');
+});
+
+textArea.addEventListener('blur', function() {
+  this.parentElement.classList.remove('focused');
+});
+
+/*
+// Check if the browser supports a particular pseudo-element
+function supportsPseudoElement(pseudoEl) {
+  const rule = `@supports (${pseudoEl}) { #supports-pseudo-element-check { position: absolute; } }`;
+  const style = document.createElement('style');
+  style.innerHTML = rule;
+  document.head.appendChild(style);
+  const supports = !!window.getComputedStyle(document.querySelector('#supports-pseudo-element-check')).position;
+  document.head.removeChild(style);
+  return supports;
+}
+
+// Check if browser supports ::-webkit-scrollbar and add class if true
+if (supportsPseudoElement('::-webkit-scrollbar')) {
+  textArea  .classList.add('webkit-scrollbar');
+}*/
+
+
+
+
