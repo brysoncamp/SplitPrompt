@@ -98,7 +98,7 @@ body {
     font-family: "Roboto", sans-serif;
     color: var(--font-color);
     /*margin-top: -1rem;*/
-    font-size: 0.6rem;
+    font-size: 0.8rem;
     line-height: 1.6rem;
     font-weight: 100;
     margin: 0;
@@ -387,7 +387,7 @@ select.gpt-option option:hover {
 }
 
 
-@media (min-width: 16rem) {
+@media (min-width: 20.5rem) {
     .title-container {
         align-items: normal;
     }
