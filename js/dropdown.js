@@ -30,6 +30,7 @@ unselectedOption.addEventListener("click", function(event) {
         chunkInput.value = 4096;
     } else {
         chunkInput.value = localStorage.getItem("customChunk");
+        chunkInput.focus();
     }
 });
 
