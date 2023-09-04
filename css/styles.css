@@ -100,9 +100,10 @@ body {
     color: var(--font-color);
     /*margin-top: -1rem;*/
     font-size: 0.8rem;
-    line-height: 1.6rem;
+    line-height: 1.2rem; /* 1.6 rem */
     font-weight: 100;
     margin: 0;
+    margin-top: 0.5rem; /* 0 */
 }
 
 .circle-icon {
@@ -278,48 +279,6 @@ body {
     font-style: "Roboto";
 }
 
-
-/*
-
-.gpt-select {
-    margin: 0 4px 4px 4px;
-    width: 100px;             
-    padding: 4px;           
-    font-size: 14px;        
-    font-family: "Sen", sans-serif; 
-    color: #333;             
-    background-color: #f6f6f6;; 
-    border-radius: 4px;      
-    appearance: none;        
-    -webkit-appearance: none; 
-    -moz-appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8 10L12 14L16 10' stroke='%23200E32' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right center; /* Position the arrow on the right side, with some space *//*
-    border: none;
-    outline: none;
-}
-
-.gpt-select::-ms-expand {
-    display: none; 
-}
-
-.gpt-select:hover {
-    cursor: pointer;
-}
-
-.gpt-option {
-    font-size: 14px;        
-    font-family: "Sen", sans-serif; 
-    color: black;             
-    background-color: black; 
-    padding: 4px 4px;
-}
-
-select.gpt-option option:hover {
-    background-color: red;
-}*/
-
 .selected-option {
     width: 90px;             
     padding: 4px;           
@@ -391,6 +350,21 @@ select.gpt-option option:hover {
     height: auto;*/
 }
 
+.info-title {
+    font-family: "Sen", sans-serif; 
+    font-size: 1rem;
+    margin: 1rem;
+}
+
+.info-content {
+    font-family: "Roboto";
+    font-size: 0.8rem;
+    margin: 1rem;
+    font-weight: normal;
+    text-align: justify;
+    line-height: 1.4rem;
+}
+
 
 @media (min-width: 20.5rem) {
     .title-container {
@@ -399,6 +373,11 @@ select.gpt-option option:hover {
 
     .title-text {
         text-align: left;
+    }
+
+    .subtitle-text {
+        line-height: 1.6rem;
+        margin-top: 0;
     }
 
     .logo-container {

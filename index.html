@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <title>Split Prompt - Bypass ChatGPT Token Limit</title>
-    <meta name="description" content="Exceed ChatGPT's word and character limits with Split Prompt. Send longer prompts by splitting them into 2048-token chunks.">
+    <meta name="description" content="Exceed ChatGPT's word and character limits with Split Prompt. Send longer prompts by splitting them into 4096-token chunks.">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <script>
@@ -33,8 +33,8 @@
 			  <div class="circle-icon" id="circleLower"></div>
 			</div>
 			<div class="title-container">
-				<h2 class="title-text">Split Prompt</h1>
-				<h5 class="subtitle-text">Split long prompts into ChatGPT-friendly chunks</h5>
+				<h2 class="title-text">Split Prompt</h2>
+				<h3 class="subtitle-text">Split long prompts into ChatGPT-friendly&nbsp;chunks</h3>
 			</div>
 		</div>
 	</div>
@@ -53,7 +53,12 @@
 				<div id="tokenCount" class="token-count">0 TOKENS</div>
 			</div>
 		</div>
-		<div class="output-container"></div>
+		<div class="output-container">
+			<div class="info-container">
+				<h1 class="info-title">ChatGPT Prompt Splitter</h1>
+				<p class="info-content">Process extended prompts effortlessly with Split Prompt. Precision-designed, our tool expertly divides extensive texts into ChatGPT-ready segments. By utilizing token-counting, we optimally minimize the number of resulting chunks for an efficient interaction. Experience ChatGPT without the constraints of character limits.</p>			
+			</div>
+		</div>
 	</main>
 	<script src="https://unpkg.com/gpt-tokenizer"></script>
 	<script src="js/script.js"></script>
