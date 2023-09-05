@@ -17,7 +17,7 @@ themeToggle.addEventListener("click", () => {
   localStorage.setItem("theme", newTheme);
 });
 
-const { encode, decode } = GPTTokenizer_cl100k_base;
+const { encode, decode } = GPTTokenizer_p50k_base; // GPTTokenizer_p50k_base or GPTTokenizer_cl100k_base
 
 const textArea = document.getElementById('textArea');
 const clearButton = document.getElementById('clearButton');
@@ -25,20 +25,28 @@ const clearButton = document.getElementById('clearButton');
 clearButton.addEventListener('click', function() {
   textArea.value = "";
   clearButton.style.display = "none";
-  tokenCount.innerText = "0 TOKENS";
-});
+  tokenCount.innerHTML = "0&nbsp;TOKENS";
+});``
 
 const tokenCount = document.getElementById("tokenCount");
 
 textArea.addEventListener('input', function() {
   const text = textArea.value;
   const encodedTokens = encode(text);
-  tokenCount.innerText = encodedTokens.length + " TOKENS";
-  //document.querySelector("#count").innerText = encodedTokens.length;
+  const chunkSize = chunkInput.value;
+  tokenCount.innerHTML = encodedTokens.length + "&nbsp;TOKENS";
   if (text != "") {
     clearButton.style.display = "block";
   } else {
     clearButton.style.display = "none";
+  }
+
+  console.log(chunkInput);
+  console.log(chunkSize);
+  console.log(encodedTokens.length);
+  
+  if (chunkSize != 0 && encodedTokens.length > chunkSize) {
+    console.log("can split");
   }
 });
 

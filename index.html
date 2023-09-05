@@ -44,34 +44,41 @@
 			<textarea id="textArea" class="text-area" spellcheck="false" placeholder="Enter your long prompt"></textarea>
 			<div class="input-bottom">
 				<div class="gpt-select">
-					<div id="selected-option" class="selected-option">GPT-3/4</div>
-					<div id="unselected-option" class="unselected-option">CUSTOM</div>
+					<div id="selected-option" class="selected-option" tabindex="0">GPT-3.5</div>
+					<div class="unselected-option">GPT-4</div>
+					<div class="unselected-option">CUSTOM</div>
 				</div>
-				<input id="chunkInput" class="chunk-input" value="4096" type="number" max-length="10" placeholder="4096"></input>
+				<input id="chunkInput" class="chunk-input" type="number"></input>
 				<script src="js/dropdown.js"></script>
 				<div class="flex-grow"></div>
-				<div id="tokenCount" class="token-count">0 TOKENS</div>
+				<div id="tokenCount" class="token-count">0&nbsp;TOKENS</div>
 			</div>
 		</div>
 		<div class="output-container">
-			<div class="info-container">
+			<div class="info-container" style="display: none;">
 				<h1 class="info-title">ChatGPT Prompt Splitter</h1>
 				<p class="info-content">Process extended prompts effortlessly with Split Prompt. Precision-designed, our tool expertly divides extensive texts into ChatGPT-ready segments. By utilizing token-counting, we optimally minimize the number of resulting chunks for an efficient interaction. Experience ChatGPT without the constraints of character limits.</p>			
 			</div>
+			<div class="prompt-container">
+				<div class="prompt-selection-wrapper">
+					<div class="prompt-selection">
+						<div class="prompt-option-selected">PROMPT 1</div>
+						<div class="prompt-option-unselected">PROMPT 2</div>
+						<div class="prompt-option-unselected">PROMPT 3</div>
+						<div class="prompt-option-unselected">PROMPT 4</div>
+						<div class="prompt-option-unselected">PROMPT 5</div>
+						<div class="prompt-option-unselected">PROMPT 6</div>
+						<div class="prompt-option-unselected">PROMPT 7</div>
+						<div class="prompt-option-unselected">PROMPT 8</div>
+					</div>
+				</div>
+			</div>
+			<div class="flex-grow"></div>
+			<div class="copy-button">SPLIT NOT REQUIRED</div>
 		</div>
 	</main>
+	<script src="https://unpkg.com/gpt-tokenizer@2.1.1/dist/p50k_base.js"></script>
 	<script src="https://unpkg.com/gpt-tokenizer"></script>
 	<script src="js/script.js"></script>
-    <!--
-    <div class="main-container">
-      <div class="input-container">
-        <textarea id="textArea" class="text-area" spellcheck="false" placeholder="Enter prompt here or..."></textarea>
-      </div>
-      <div class="output-container"></div>
-    </div>
-    <button id="pasteButton">Paste from Clipboard</button>
-    <p id="count">0</p>
-    <script src="https://unpkg.com/gpt-tokenizer"></script>
-    <script src="js/script.js"></script>-->
 </body>
 </html>

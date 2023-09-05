@@ -1,67 +1,86 @@
 const selectedOption = document.getElementById("selected-option");
-const unselectedOption = document.getElementById("unselected-option");
-const savedOption = localStorage.getItem("savedOption");
-const otherOption = localStorage.getItem("otherOption");
+const unselectedOptions = document.querySelectorAll(".unselected-option");
 const chunkInput = document.getElementById("chunkInput");
-const customChunk = localStorage.getItem("customChunk");
 
-if (savedOption) {
-    selectedOption.innerText = savedOption;
-    unselectedOption.innerText = otherOption;
-}
+const savedOption = localStorage.getItem("savedOption") || "GPT-3.5";
+const customChunk = localStorage.getItem("customChunk") || "";
 
-if (!customChunk) {
-    localStorage.setItem("customChunk", 2048);
-}
+selectedOption.innerText = savedOption;
+updateUnselectedOptions(savedOption);
+chunkInput.value = getChunkValue(savedOption);
 
 selectedOption.addEventListener("click", function(event) {
-    if (unselectedOption.style.display !== "block") {
-        unselectedOption.style.display = "block";
-        event.stopPropagation();
-    } 
+    if (unselectedOptions[0].style.display === "block") {
+        toggleUnselectedOptions("none");
+    } else {
+        toggleUnselectedOptions("block");
+    }
+    event.stopPropagation();
 });
 
-unselectedOption.addEventListener("click", function(event) {
-    localStorage.setItem("savedOption", unselectedOption.innerText);
-    localStorage.setItem("otherOption", selectedOption.innerText);
-    selectedOption.innerText = localStorage.getItem("savedOption");
-    unselectedOption.innerText = localStorage.getItem("otherOption");
-    if (selectedOption.innerText === "GPT-3.5/4") {
-        chunkInput.value = 4096;
-    } else {
-        chunkInput.value = localStorage.getItem("customChunk");
-        chunkInput.focus();
-    }
-});
 
 document.addEventListener("click", function() {
-    unselectedOption.style.display = "none";
+    toggleUnselectedOptions("none");
+});
+
+unselectedOptions.forEach(option => {
+    option.addEventListener("click", function(event) {
+        const newSelected = event.target.innerText;
+        updateUnselectedOptions(newSelected);
+        localStorage.setItem("savedOption", newSelected);
+        chunkInput.value = getChunkValue(newSelected);
+        if (newSelected === "CUSTOM") {
+            chunkInput.focus();
+        }
+    });
 });
 
 chunkInput.addEventListener("input", function() {
-    if (chunkInput.value !== 4096) {
+    const inputValue = chunkInput.value.replace(/^0+/, '');
+    if (inputValue) {
         localStorage.setItem("savedOption", "CUSTOM");
-        localStorage.setItem("otherOption", "GPT-3.5/4");
+        localStorage.setItem("customChunk", inputValue);
         selectedOption.innerText = "CUSTOM";
-        unselectedOption.innerText = "GPT-3.5/4";
-        localStorage.setItem("customChunk", chunkInput.value.replace(/^0+/, ''));
-    } else {
-        localStorage.setItem("savedOption", "GPT-3.5/4");
-        localStorage.setItem("otherOption", "CUSTOM");
-        selectedOption.innerText = "GPT-3.5/4";
-        unselectedOption.innerText = "CUSTOM";
+        updateUnselectedOptions("CUSTOM");
+    }
+});
+
+chunkInput.addEventListener("blur", function(event) {
+    const inputValue = chunkInput.value.trim();
+    if ((!inputValue || isNaN(inputValue) || parseInt(inputValue) <= 0) && event.relatedTarget && "CUSTOM" !== event.relatedTarget.innerText) {
+        localStorage.setItem("savedOption", "GPT-3.5");
+        selectedOption.innerText = "GPT-3.5";
+        updateUnselectedOptions("GPT-3.5");
+        chunkInput.value = getChunkValue("GPT-3.5");
     }
 });
 
 
-chunkInput.addEventListener("blur", function() {
-    if (chunkInput.value === "") {
-        localStorage.setItem("savedOption", "GPT-3.5/4");
-        localStorage.setItem("otherOption", "CUSTOM");
-        selectedOption.innerText = "GPT-3.5/4";
-        unselectedOption.innerText = "CUSTOM";
-        chunkInput.value = "4096";
-        localStorage.setItem("customChunk", 2048);
-    }
-});
+function toggleUnselectedOptions(display) {
+    unselectedOptions.forEach(option => {
+        option.style.display = display;
+    });
+}
 
+function updateUnselectedOptions(newSelected) {
+    const options = ["GPT-3.5", "GPT-4", "CUSTOM"];
+    const unselected = options.filter(opt => opt !== newSelected);
+    unselectedOptions.forEach((option, i) => {
+        option.innerText = unselected[i];
+        localStorage.setItem(`otherOption${i + 1}`, unselected[i]);
+    });
+    selectedOption.innerText = newSelected;
+}
+
+function getChunkValue(option) {
+    switch (option) {
+        case "GPT-3.5":
+            return 16372;
+        case "GPT-4":
+            return 8170;
+        case "CUSTOM":
+            return customChunk;
+        default:
+            return "";
+    }
+}
