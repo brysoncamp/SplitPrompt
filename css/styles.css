@@ -70,10 +70,15 @@ body {
     flex-direction: column;
     align-items: center;
     width: 95%;
+    user-select: none; 
+    -webkit-touch-callout: none; 
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
 
 .theme-toggle {
-    margin:0.5rem;
+    margin: 0.5rem;
     width: 1.5rem;
     height: 1.5rem;
     cursor: pointer;
@@ -199,14 +204,31 @@ body {
 
 
 .output-container {
-    width: 100%;
+    width: calc(100%-4px);
     height: 100%;
     border-radius: 0.5rem;
     background-color: #f6f6f6;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-between;
+    overflow: hidden;
+    
 }
+
+/*
+.input-container {
+    width: 100%;
+    height: 60%;
+    border: 2px solid #e6e6e6; 
+    box-sizing: border-box;
+
+    border-radius: 0.5rem;
+    box-sizing: border-box;
+    padding: 0px; 
+    position: relative;
+
+*/
 
 .text-area {
     padding: 0.4rem 0rem 0 0.4rem;
@@ -228,6 +250,7 @@ body {
 
 .flex-grow {
     flex: 1;
+    width: 10px;
 }
 
 .token-count {
@@ -367,21 +390,52 @@ body {
     line-height: 1.3rem;
 }
 
+.button-wrapper {
+    display: inline-block; 
+    position: relative;
+    width: 98%;
+    height: 3rem;
+    margin-bottom: 8px;
+}
+
 .copy-button {
-    width: 95%;
+    position: absolute; /* This is changed to absolute */
+    top: 0; /* Positioned at the top of its parent */
+    left: 0; /* Positioned at the left of its parent */
+    width: 100%;
     height: 3rem;
     border-radius: 1.5rem;
-    margin: 0.5rem;
     background-color: black;
     font-family: "Sen";
     font-size: 1rem;
-    box-sizing: border-box;
-    padding-bottom: 0.1rem;
     color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    text-align: center;
+    box-sizing: border-box;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: transform 0.1s ease;
+    z-index: 2; 
+    border: none;
 }
+
+.hover {
+    transform: translateY(-10px);
+    cursor: pointer;
+}
+
+.shadow {
+    position: absolute; /* It remains absolute */
+    top: 0; 
+    left: 0;
+    width: 100%;
+    height: 3rem;
+    border-radius: 1.5rem;
+    background-color: rgba(0, 0, 0, 0.2); 
+    z-index: 1; 
+}
+
+
 
 .prompt-container {
     width: 100%;
@@ -391,12 +445,10 @@ body {
     width: 100%;
     height: 2rem;
     scroll-behavior: smooth;
-    padding: 8px;
-    padding-left: 12px;
+    padding: 8px 8px 4px 8px;
     overflow-x: auto;
     white-space: nowrap;
     scrollbar-width: none;
-
 }
 
 .prompt-selection::-webkit-scrollbar {
@@ -410,7 +462,7 @@ body {
     white-space: nowrap;
     border-radius: 4px; 
     padding: 7px 11px;
-    margin-left: -4px;
+    margin-left: 0px; /* -4px */
     font-size: 12px;  
     font-family: "Sen", sans-serif; 
     text-align: center;
@@ -433,21 +485,52 @@ body {
 
 .prompt-option-unselected:hover {
     color: black;
+    /*background-color: #f0f0f0;*/
+    font-weight: bold;
 }
 
 .prompt-option-selected {
-    background-color: #e9e9e9;
+    background-color: #e6e6e6;
     color: black;
+    /*outline: 2px solid white;*/
 }
 
 .prompt-option-unselected {
     color: #707070;
+    font-weight: normal;
 }
 
 .prompt-margin-right {
     width: 20px;
 }
 
+.prompt-textareas {
+    flex-grow: 1;
+    width: 100%;
+    overflow: hidden;
+    /*margin-bottom: -12px;*/
+}
+
+.prompt-textarea {
+    box-sizing: border-box;
+    padding: 0 10px 10px 10px;
+    font-size: 13px;
+    font-family: 'Roboto Mono', 'Courier New', monospace;
+    overflow-y: scroll;
+    width: 100%;
+    border: none;
+    resize: none;
+    outline: none;
+    white-space: pre-wrap;
+    height: 100%;
+    background-color: transparent;
+    display: none;
+    cursor: pointer;
+}
+
+.seen {
+    display: block;
+}
 
 @media (min-width: 20.5rem) {
     .title-container {

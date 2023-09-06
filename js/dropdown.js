@@ -47,21 +47,21 @@ function isClickInsideElement(target, element) {
     return element.contains(target);
 }
 chunkInput.addEventListener("blur", function(event) {
-    const handleDefault = () => {
+    const handleDefault = (event) => {
         const inputValue = chunkInput.value.trim();
         if ((!inputValue || isNaN(inputValue) || parseInt(inputValue) <= 0)) {
-            if (event.relatedTarget && "CUSTOM" == event.relatedTarget.innerText) {
-                event.relatedTarget.addEventListener("blur", handleDefault, { once: true });
+            if (event.relatedTarget && ["GPT-3.5", "GPT-4", "CUSTOM"].indexOf(event.relatedTarget.innerText) !== -1) {
+                setTimeout(event.relatedTarget.addEventListener("blur", handleDefault, { once: true }), 0);
                 return;
-            }
-            localStorage.setItem("savedOption", "GPT-3.5");
-            selectedOption.innerText = "GPT-3.5";
-            updateUnselectedOptions("GPT-3.5");
-            chunkInput.value = getChunkValue("GPT-3.5");
+            } else {
+                localStorage.setItem("savedOption", "GPT-3.5");
+                selectedOption.innerText = "GPT-3.5";
+                updateUnselectedOptions("GPT-3.5");
+                chunkInput.value = getChunkValue("GPT-3.5");
+            }            
         }
     };
-
-    setTimeout(handleDefault, 0);
+    setTimeout(handleDefault(event), 0);
 });
 
 
