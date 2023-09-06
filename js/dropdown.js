@@ -36,23 +36,32 @@ unselectedOptions.forEach(option => {
 });
 
 chunkInput.addEventListener("input", function() {
-    const inputValue = chunkInput.value.replace(/^0+/, '');
-    if (inputValue) {
-        localStorage.setItem("savedOption", "CUSTOM");
-        localStorage.setItem("customChunk", inputValue);
-        selectedOption.innerText = "CUSTOM";
-        updateUnselectedOptions("CUSTOM");
-    }
+    const inputValue = chunkInput.value.replace(/^0+/, '') || "";
+    localStorage.setItem("savedOption", "CUSTOM");
+    localStorage.setItem("customChunk", inputValue);
+    selectedOption.innerText = "CUSTOM";
+    updateUnselectedOptions("CUSTOM");
 });
 
+function isClickInsideElement(target, element) {
+    return element.contains(target);
+}
 chunkInput.addEventListener("blur", function(event) {
-    const inputValue = chunkInput.value.trim();
-    if ((!inputValue || isNaN(inputValue) || parseInt(inputValue) <= 0) && event.relatedTarget && "CUSTOM" !== event.relatedTarget.innerText) {
-        localStorage.setItem("savedOption", "GPT-3.5");
-        selectedOption.innerText = "GPT-3.5";
-        updateUnselectedOptions("GPT-3.5");
-        chunkInput.value = getChunkValue("GPT-3.5");
-    }
+    const handleDefault = () => {
+        const inputValue = chunkInput.value.trim();
+        if ((!inputValue || isNaN(inputValue) || parseInt(inputValue) <= 0)) {
+            if (event.relatedTarget && "CUSTOM" == event.relatedTarget.innerText) {
+                event.relatedTarget.addEventListener("blur", handleDefault, { once: true });
+                return;
+            }
+            localStorage.setItem("savedOption", "GPT-3.5");
+            selectedOption.innerText = "GPT-3.5";
+            updateUnselectedOptions("GPT-3.5");
+            chunkInput.value = getChunkValue("GPT-3.5");
+        }
+    };
+
+    setTimeout(handleDefault, 0);
 });
 
 
@@ -79,7 +88,7 @@ function getChunkValue(option) {
         case "GPT-4":
             return 8170;
         case "CUSTOM":
-            return customChunk;
+            return localStorage.getItem("customChunk") || "";
         default:
             return "";
     }

@@ -58,6 +58,58 @@ textArea.addEventListener('blur', function() {
   this.parentElement.classList.remove('focused');
 });
 
+
+// Get all prompt options
+const prompts = document.querySelectorAll('.prompt-option-unselected, .prompt-option-selected');
+const promptContainer = document.querySelector('.prompt-selection');
+
+// Add click event to each prompt option
+prompts.forEach((prompt, index) => {
+    prompt.addEventListener('click', function() {
+        // Find the current selected option and set its class to unselected
+        const currentSelected = document.querySelector('.prompt-option-selected');
+        if (currentSelected) {
+            currentSelected.className = 'prompt-option-unselected';
+        }
+
+        // Set the clicked option's class to selected
+        this.className = 'prompt-option-selected';
+
+        // Check for edge cases
+        const rect = this.getBoundingClientRect();
+        const containerRect = promptContainer.getBoundingClientRect();
+
+        // Check if left neighbor is out of view
+        if (index > 0) {
+            const leftNeighbor = prompts[index - 1].getBoundingClientRect();
+            if (leftNeighbor.left < containerRect.left) {
+                promptContainer.scrollLeft -= (containerRect.left - leftNeighbor.left + 26); // +10 for a little margin
+            }
+        }
+
+        // Check if right neighbor is out of view
+        if (index < prompts.length - 1) {
+            const rightNeighbor = prompts[index + 1].getBoundingClientRect();
+            if (rightNeighbor.right > containerRect.right) {
+                promptContainer.scrollLeft += (rightNeighbor.right - containerRect.right + 26); // +10 for a little margin
+            }
+        }
+    });
+});
+
+
+if (!('ontouchstart' in window)) {
+  promptContainer.addEventListener('wheel', function(event) {
+      this.scrollLeft += event.deltaY;
+      event.preventDefault();
+  }, { passive: false });
+}
+
+
+
+
+
+
 /*
 // Check if the browser supports a particular pseudo-element
 function supportsPseudoElement(pseudoEl) {
@@ -74,7 +126,3 @@ function supportsPseudoElement(pseudoEl) {
 if (supportsPseudoElement('::-webkit-scrollbar')) {
   textArea  .classList.add('webkit-scrollbar');
 }*/
-
-
-
-
