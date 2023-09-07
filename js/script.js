@@ -38,6 +38,7 @@ clearButton.addEventListener('click', function() {
 function calculateSplitSizes(L, C, O) {
   let n = 1;
   while (L > n * (C - O)) {
+    console.log(n);
       n++;
   }
   const total = n * O + L;
@@ -76,18 +77,19 @@ textArea.addEventListener('input', throttle(function() {
     clearButton.style.display = "none";
   }
 
-  if (chunkSize != 0 && encodedTokens.length > chunkSize) {
+  if (chunkSize != 0 && encodedTokens.length > chunkSize && chunkSize > 30) {
+    console.log(encodedTokens.length, chunkSize);
     const splitSizes = calculateSplitSizes(encodedTokens.length, chunkSize, 30);
+    console.log("split sizes", splitSizes)
     promptContainer.innerHTML = "";
     promptTextareas.innerHTML = "";
     for (let i = 0; i < splitSizes.length; i++) {
-      const newDiv2 = document.createElement('textarea');
+      const newDiv2 = document.createElement('div');
       newDiv2.className = "prompt-textarea";
-      newDiv2.spellcheck = "false";
       const startIndex = splitSizes.slice(0, i).reduce((acc, val) => acc + val, 0);
       const endIndex = startIndex + splitSizes[i];
       const tokenChunk = encodedTokens.slice(startIndex, endIndex);
-      newDiv2.value = decode(tokenChunk);
+      newDiv2.innerText = decode(tokenChunk);
 
 
       const newDiv = document.createElement('div');
@@ -219,20 +221,20 @@ if (supportsPseudoElement('::-webkit-scrollbar')) {
 const outputContainer = document.querySelector('.output-container');
 
 outputContainer.addEventListener('mouseover', function(e) {
-    const isOverSelectedOption = e.target.closest('.prompt-option-selected');
-    const isOverUnselectedOption = e.target.closest('.prompt-option-unselected');
+    const isOverPromptContainer = e.target.closest('.prompt-container');
     const isPromptContainerVisible = getComputedStyle(promptContainer).display !== "none";
-    
-    if ((isOverSelectedOption || isOverUnselectedOption) && isPromptContainerVisible) {
-        outputContainer.style.border = "2px solid #f6f6f6";
+    if (isOverPromptContainer && isPromptContainerVisible) {
         outputContainer.style.cursor = "default";
         copyButton.classList.remove("hover");
         outputContainer.style.backgroundColor = "#f6f6f6";
+        console.log("here");
     } else {
         console.log("Hovering over output-container but not visible prompt-container");
         outputContainer.style.cursor = "pointer";
-        // Assuming you have defined copyButton elsewhere in your code
+
         copyButton.classList.add("hover");
+
+      
         outputContainer.style.backgroundColor = "#e6e6e6";
     }
 });
@@ -240,8 +242,87 @@ outputContainer.addEventListener('mouseover', function(e) {
 
 // Remove style when mouse exits output-container
 outputContainer.addEventListener('mouseout', function() {
-    outputContainer.style.border = "2px solid #f6f6f6"; // or whatever the initial style was
     outputContainer.style.cursor = "default";
     copyButton.classList.remove("hover");
     outputContainer.style.backgroundColor = "#f6f6f6";
+});
+
+outputContainer.addEventListener('mousedown', function(e) {
+  const isOverPromptContainer = e.target.closest('.prompt-container');
+  const isPromptContainerVisible = getComputedStyle(promptContainer).display !== "none";
+
+  //const isOverVerticalScrollbar = e.clientX - outputContainer.getBoundingClientRect().left > outputContainer.clientWidth;
+  const rect = outputContainer.getBoundingClientRect();
+    
+  const isOnVerticalScrollbar = (e.clientX - rect.left) > outputContainer.clientWidth && outputContainer.scrollWidth > outputContainer.clientWidth;
+                                
+  console.log(isOnVerticalScrollbar)
+  console.log('^^^^^');
+
+
+  if (!(isOverPromptContainer && isPromptContainerVisible)) {
+    copyButton.classList.remove("hover");
+  
+
+    /*
+    const match = copyButton.innerText.match(/(\d+)\//);
+    const number = match ? parseInt(match[1], 10) : null;
+    console.log(splitSizes);
+    console.log(number);
+    console.log(splitSizes.length);
+    if (number && number < splitSizes.length) {
+      copyButton.innerText = `COPY ${number+1}/${splitSizes.length}`;
+    }*/
+  }
+})
+outputContainer.addEventListener('mouseup', function(e) {
+  const isOverPromptContainer = e.target.closest('.prompt-container');
+  const isPromptContainerVisible = getComputedStyle(promptContainer).display !== "none";
+  
+  if (!(isOverPromptContainer && isPromptContainerVisible)) {
+    copyButton.classList.add("hover");
+    const selected = document.querySelector(".prompt-option-selected");
+    const nextSelected = selected.nextElementSibling;
+    const selectedPrompt = document.querySelector(".seen");
+
+    if (nextSelected) {
+      selected.className = "prompt-option-unselected";
+      nextSelected.className = "prompt-option-selected";
+
+      selectedPrompt.classList.remove("seen");
+      selectedPrompt.nextElementSibling.classList.add("seen");
+
+      const match = selected.innerText.match(/PROMPT (\d+)/);
+      const number = match ? parseInt(match[1], 10) : null;
+      
+      if (number !== null) {
+        copyButton.innerText = `COPY ${number+1}/${promptContainer.childElementCount}`;
+      }
+
+      const prompts = document.querySelectorAll('.prompt-option-unselected, .prompt-option-selected');
+      const i = Array.from(prompts).indexOf(nextSelected);
+
+      const currentSelected = document.querySelector('.prompt-option-selected');
+      if (currentSelected) {
+          currentSelected.className = 'prompt-option-unselected';
+      }
+      nextSelected.className = 'prompt-option-selected';
+
+      const containerRect = promptContainer.getBoundingClientRect();
+
+      if (i > 0) {
+          const leftNeighbor = prompts[i - 1].getBoundingClientRect();
+          if (leftNeighbor.left < containerRect.left) {
+              promptContainer.scrollLeft -= (containerRect.left - leftNeighbor.left + 8);
+          }
+      }
+
+      if (i < prompts.length - 1) {
+          const rightNeighbor = prompts[i + 1].getBoundingClientRect();
+          if (rightNeighbor.right > containerRect.right) {
+              promptContainer.scrollLeft += (rightNeighbor.right - containerRect.right + 28);
+          }
+      }
+    }
+  }
 });

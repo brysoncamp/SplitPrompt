@@ -393,9 +393,13 @@ body {
 .button-wrapper {
     display: inline-block; 
     position: relative;
-    width: 98%;
+    width: 90%;
     height: 3rem;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    /*margin-bottom: 36px;
+    margin-top: 10px;*/
+
 }
 
 .copy-button {
@@ -414,13 +418,15 @@ body {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    transition: transform 0.1s ease;
+    /*transition: transform 0.1s ease;*/
     z-index: 2; 
     border: none;
+    transition: transform 0.1s ease;
 }
 
 .hover {
-    transform: translateY(-10px);
+   
+    transform: translateY(-8px);
     cursor: pointer;
 }
 
@@ -508,6 +514,7 @@ body {
     flex-grow: 1;
     width: 100%;
     overflow: hidden;
+    height: 0px;
     /*margin-bottom: -12px;*/
 }
 
@@ -521,15 +528,24 @@ body {
     border: none;
     resize: none;
     outline: none;
-    white-space: pre-wrap;
     height: 100%;
     background-color: transparent;
     display: none;
     cursor: pointer;
+    white-space: pre-wrap;
+    overflow-x: hidden;
+    /*display: inline-block;*/
+    /*
+    user-select: none; 
+    -webkit-touch-callout: none; 
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    */
 }
 
 .seen {
-    display: block;
+    display: inline-block;
 }
 
 @media (min-width: 20.5rem) {
