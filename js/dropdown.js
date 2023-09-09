@@ -32,6 +32,7 @@ unselectedOptions.forEach(option => {
         if (newSelected === "CUSTOM") {
             chunkInput.focus();
         }
+        handleOutput();
     });
 });
 
@@ -41,6 +42,8 @@ chunkInput.addEventListener("input", function() {
     localStorage.setItem("customChunk", inputValue);
     selectedOption.innerText = "CUSTOM";
     updateUnselectedOptions("CUSTOM");
+
+    handleOutput();
 });
 
 function isClickInsideElement(target, element) {

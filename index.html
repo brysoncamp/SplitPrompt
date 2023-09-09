@@ -55,19 +55,19 @@
 			</div>
 		</div>
 		<div class="output-container">
-			<div class="info-container" style="display: none;">
+			<div class="info-container">
 				<h1 class="info-title">ChatGPT Prompt Splitter</h1>
 				<p class="info-content">Process extended prompts effortlessly with Split Prompt. Precision-designed, our tool expertly divides extensive texts into ChatGPT-ready segments. By utilizing token-counting, we optimally minimize the number of resulting chunks for an efficient interaction. Experience ChatGPT without the constraints of character limits.</p>			
 			</div>
-			<div class="prompt-container">
+			<div class="prompt-container" style="display: none">
 				<div class="prompt-selection"></div>
-			</div>
-			<div id="promptTextareas" class="prompt-textareas">	
+				<div id="promptTextareas" class="prompt-textareas"></div>
 			</div>
 			<div class="button-wrapper">
+				<div class="copied-text"> COPIED 1/5 TO CLIPBOARD</div>
 				<button class="copy-button">SPLIT NOT REQUIRED</button>
 				<div class="shadow"></div>
-			</div>
+			</div>	
 		</div>
 	</main>
 	<script src="https://unpkg.com/gpt-tokenizer@2.1.1/dist/p50k_base.js"></script>

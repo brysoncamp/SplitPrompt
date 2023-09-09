@@ -33,7 +33,6 @@ clearButton.addEventListener('click', function() {
   textArea.value = "";
   clearButton.style.display = "none";
   tokenCount.innerHTML = "0&nbsp;TOKENS";
-  handleOutput();
 });
 
 function calculateSplitSizes(L, C, O) {
@@ -67,121 +66,86 @@ function throttle(func, delay) {
   };
 }
 
-var chunkSizeExceeded = false;
-
 textArea.addEventListener('input', throttle(function() {
+  const text = textArea.value;
+  const encodedTokens = encode(text);
+  const chunkSize = chunkInput.value;
+  tokenCount.innerHTML = encodedTokens.length + "&nbsp;TOKENS";
+  if (text != "") {
+    clearButton.style.display = "block";
+  } else {
+    clearButton.style.display = "none";
+  }
 
-  handleOutput();
-  
+  if (chunkSize != 0 && encodedTokens.length > chunkSize && chunkSize > 30) {
+    console.log(encodedTokens.length, chunkSize);
+    const splitSizes = calculateSplitSizes(encodedTokens.length, chunkSize, 30);
+    console.log("split sizes", splitSizes)
+    promptContainer.innerHTML = "";
+    promptTextareas.innerHTML = "";
+    for (let i = 0; i < splitSizes.length; i++) {
+      const newDiv2 = document.createElement('div');
+      newDiv2.className = "prompt-textarea";
+      const startIndex = splitSizes.slice(0, i).reduce((acc, val) => acc + val, 0);
+      const endIndex = startIndex + splitSizes[i];
+      const tokenChunk = encodedTokens.slice(startIndex, endIndex);
+      newDiv2.innerText = decode(tokenChunk);
+
+
+      const newDiv = document.createElement('div');
+      newDiv.textContent = `PROMPT ${i + 1}`;
+      newDiv.addEventListener('click', function() {
+
+        const promptAreas = document.querySelectorAll(".prompt-textarea");
+        promptAreas.forEach((area, j) => {
+            if (j === i) {
+                area.classList.add("seen");
+            } else {
+                area.classList.remove("seen");
+            }
+        });
+
+
+        const prompts = document.querySelectorAll('.prompt-option-unselected, .prompt-option-selected');
+
+        const currentSelected = document.querySelector('.prompt-option-selected');
+        if (currentSelected) {
+            currentSelected.className = 'prompt-option-unselected';
+        }
+        this.className = 'prompt-option-selected';
+        const containerRect = promptContainer.getBoundingClientRect();
+        if (i > 0) {
+            const leftNeighbor = prompts[i - 1].getBoundingClientRect();
+            if (leftNeighbor.left < containerRect.left) {
+                promptContainer.scrollLeft -= (containerRect.left - leftNeighbor.left + 8);
+            }
+        }
+        if (i < prompts.length - 1) {
+            const rightNeighbor = prompts[i + 1].getBoundingClientRect();
+            if (rightNeighbor.right > containerRect.right) {
+                promptContainer.scrollLeft += (rightNeighbor.right - containerRect.right + 28);
+            }
+        }
+
+        copyButton.innerText = `COPY ${i + 1}/${prompts.length}`;
+
+      });
+      if (i === 0) {
+        newDiv.className = 'prompt-option-selected';
+        const startIndex = splitSizes.slice(0, i).reduce((acc, val) => acc + val, 0);
+        const endIndex = startIndex + splitSizes[i];
+        const tokenChunk = encodedTokens.slice(startIndex, endIndex);
+        //promptTextarea.value = decode(tokenChunk);
+        newDiv2.classList.add("seen");
+        copyButton.innerText = `COPY 1/${splitSizes.length}`;
+      } else {
+        newDiv.className = 'prompt-option-unselected';
+      }
+      promptContainer.appendChild(newDiv);
+      promptTextareas.appendChild(newDiv2);
+    }
+  }
 }, 300));
-
-function handleOutput() {
-	const text = textArea.value;
-	const encodedTokens = encode(text);
-	tokenCount.innerHTML = encodedTokens.length + "&nbsp;TOKENS";
-	if (text != "") {
-	  clearButton.style.display = "block";
-	} else {
-	  clearButton.style.display = "none";
-	}
-	const chunkSize = chunkInput.value;
-	if (chunkSize != 0 && encodedTokens.length > chunkSize && chunkSize > 30) {
-
-		document.querySelector(".prompt-container").style.display = "block";
-		document.querySelector(".info-container").style.display = "none";
-		chunkSizeExceeded = true;
-		console.log(encodedTokens.length, chunkSize);
-		const splitSizes = calculateSplitSizes(encodedTokens.length, chunkSize, 30);
-		console.log("split sizes", splitSizes)
-		promptContainer.innerHTML = "";
-		promptTextareas.innerHTML = "";
-		for (let i = 0; i < splitSizes.length; i++) {
-			const newDiv2 = document.createElement('div');
-			newDiv2.className = "prompt-textarea";
-			const startIndex = splitSizes.slice(0, i).reduce((acc, val) => acc + val, 0);
-			const endIndex = startIndex + splitSizes[i];
-			const tokenChunk = encodedTokens.slice(startIndex, endIndex);
-			newDiv2.innerText = decode(tokenChunk);
-
-
-			const newDiv = document.createElement('div');
-			newDiv.textContent = `PROMPT ${i + 1}`;
-			newDiv.addEventListener('click', function() {
-
-			const promptAreas = document.querySelectorAll(".prompt-textarea");
-			promptAreas.forEach((area, j) => {
-				if (j === i) {
-					area.classList.add("seen");
-				} else {
-					area.classList.remove("seen");
-				}
-			});
-
-
-			const prompts = document.querySelectorAll('.prompt-option-unselected, .prompt-option-selected');
-
-			const currentSelected = document.querySelector('.prompt-option-selected');
-			if (currentSelected) {
-				currentSelected.className = 'prompt-option-unselected';
-			}
-			this.className = 'prompt-option-selected';
-			const containerRect = promptContainer.getBoundingClientRect();
-
-
-			
-			if (i === 0) {
-				const firstElementRect = prompts[0].getBoundingClientRect();
-				if (firstElementRect.left < containerRect.left) {
-					promptContainer.scrollLeft -= (containerRect.left - firstElementRect.left + 8);
-				}
-			}
-
-			// Scrolling logic for the last item
-			else if (i === prompts.length - 1) {
-				const lastElementRect = prompts[prompts.length - 1].getBoundingClientRect();
-				if (lastElementRect.right > containerRect.right) {
-					promptContainer.scrollLeft += (lastElementRect.right - containerRect.right + 28);
-				}
-			}
-
-			if (i > 0) {
-				const leftNeighbor = prompts[i - 1].getBoundingClientRect();
-				if (leftNeighbor.left < containerRect.left) {
-					promptContainer.scrollLeft -= (containerRect.left - leftNeighbor.left + 8);
-				}
-			}
-			if (i < prompts.length - 1) {
-				const rightNeighbor = prompts[i + 1].getBoundingClientRect();
-				if (rightNeighbor.right > containerRect.right) {
-					promptContainer.scrollLeft += (rightNeighbor.right - containerRect.right + 28);
-				}
-			}
-
-			copyButton.innerText = `COPY ${i + 1}/${prompts.length}`;
-
-			});
-			if (i === 0) {
-			newDiv.className = 'prompt-option-selected';
-			const startIndex = splitSizes.slice(0, i).reduce((acc, val) => acc + val, 0);
-			const endIndex = startIndex + splitSizes[i];
-			const tokenChunk = encodedTokens.slice(startIndex, endIndex);
-			//promptTextarea.value = decode(tokenChunk);
-			newDiv2.classList.add("seen");
-			copyButton.innerText = `COPY 1/${splitSizes.length}`;
-			} else {
-			newDiv.className = 'prompt-option-unselected';
-			}
-			promptContainer.appendChild(newDiv);
-			promptTextareas.appendChild(newDiv2);
-		}
-		} else {
-		console.log("empty");
-		chunkSizeExceeded = false;
-		copyButton.innerText = "SPLIT NOT REQUIRED";
-		document.querySelector(".prompt-container").style.display = "none";
-		document.querySelector(".info-container").style.display = "block";
-		}
-}
 
 
 textArea.addEventListener('focus', function() {
@@ -256,10 +220,9 @@ if (supportsPseudoElement('::-webkit-scrollbar')) {
 const outputContainer = document.querySelector('.output-container');
 
 outputContainer.addEventListener('mouseover', function(e) {
-
-	if (!chunkSizeExceeded) {
-		return;
-	}
+    if (isMouseOnVerticalScrollbar(e, outputContainer)) {
+        return;
+    }
 
     const isOverTheVisiblePromptContainer = isOverVisiblePromptContainer(e.target);
 
@@ -275,18 +238,18 @@ outputContainer.addEventListener('mouseover', function(e) {
 });
 
 outputContainer.addEventListener('mouseout', function(e) {
-	/*if (isMouseOnVerticalScrollbar(e, outputContainer)) {
+	if (isMouseOnVerticalScrollbar(e, outputContainer)) {
         return;
-    }*/
+    }
     outputContainer.style.cursor = "default";
     copyButton.classList.remove("hover");
-    outputContainer.style.backgroundColor = "#f6f6f6";                                                                                                                                                                                                                                              
+    outputContainer.style.backgroundColor = "#f6f6f6";
 });
 
 let mousedownOnScrollbar = false;  // Flag to store if mousedown was on scrollbar
 
 outputContainer.addEventListener('mousedown', function(e) {
-    if (isMouseOnVerticalScrollbar(e, outputContainer) || !chunkSizeExceeded) {
+    if (isMouseOnVerticalScrollbar(e, outputContainer)) {
         mousedownOnScrollbar = true;  // Mark the flag as true if mousedown was on scrollbar
         return;
     } else {
@@ -297,7 +260,6 @@ outputContainer.addEventListener('mousedown', function(e) {
         return;
     }
 
-	document.querySelector(".copied-text").classList.remove("copied-fade");
     copyButton.classList.remove("hover");
     // ... Your other code ...
 });
@@ -325,17 +287,16 @@ outputContainer.addEventListener('mouseup', function(e) {
 });
 
 function handleMouseUp(e) {
-	if (isMouseOnVerticalScrollbar(e, outputContainer) || !chunkSizeExceeded) {
+	if (isMouseOnVerticalScrollbar(e, outputContainer)) {
         return;
     }
     if (!isOverVisiblePromptContainer(e.target)) {
-		document.querySelector(".copied-text").classList.add("copied-fade");
         handlePromptSelectionAndNavigation();
     }
 }
 
 function isOverVisiblePromptContainer(target) {
-    const isOverPromptContainer = target.closest('.prompt-selection');
+    const isOverPromptContainer = target.closest('.prompt-container');
     const isPromptContainerVisible = getComputedStyle(promptContainer).display !== "none";
     return isOverPromptContainer && isPromptContainerVisible;
 }
@@ -360,19 +321,18 @@ function updateSelectedPrompt(selected, selectedPrompt) {
 		selectedPrompt.classList.remove("seen");
 		selectedPrompt.nextElementSibling.classList.add("seen");
 
-		//updateCopyButtonText(selected);
+		updateCopyButtonText(selected);
 		
 		handleScrolling(nextSelected);
 	}
-	updateCopyButtonText(selected);
 }
 
 
 function updateCopyButtonText(selected) {
     const match = selected.innerText.match(/PROMPT (\d+)/);
     const number = match ? parseInt(match[1], 10) : null;
-	document.querySelector(".copied-text").innerText = `COPIED ${number}/${promptContainer.childElementCount} TO CLIPBOARD`;
-    if (number !== promptContainer.childElementCount) {
+
+    if (number !== null) {
         copyButton.innerText = `COPY ${number+1}/${promptContainer.childElementCount}`;
     }
 }
@@ -381,20 +341,7 @@ function handleScrolling(nextSelected) {
     const prompts = document.querySelectorAll('.prompt-option-unselected, .prompt-option-selected');
     const i = Array.from(prompts).indexOf(nextSelected);
     const containerRect = promptContainer.getBoundingClientRect();
-	if (i === 0) {
-		const firstElementRect = prompts[0].getBoundingClientRect();
-		if (firstElementRect.left < containerRect.left) {
-			promptContainer.scrollLeft -= (containerRect.left - firstElementRect.left + 8);
-		}
-	}
 
-	// Scrolling logic for the last item
-	else if (i === prompts.length - 1) {
-		const lastElementRect = prompts[prompts.length - 1].getBoundingClientRect();
-		if (lastElementRect.right > containerRect.right) {
-			promptContainer.scrollLeft += (lastElementRect.right - containerRect.right + 28);
-		}
-	}
     if (i > 0) {
         adjustScrollLeft(i, prompts, containerRect);
     }
