@@ -310,6 +310,15 @@ outputContainer.addEventListener('mouseout', function(e) {
 let mousedownOnScrollbar = false;  // Flag to store if mousedown was on scrollbar
 
 outputContainer.addEventListener('mousedown', function(e) {
+    handleDown(e)
+});
+
+
+outputContainer.addEventListener('touchstart', function() {
+    handleDown(e)
+});
+
+function handleDown(e) {
     if (isMouseOnVerticalScrollbar(e, outputContainer) || !chunkSizeExceeded) {
         mousedownOnScrollbar = true;  // Mark the flag as true if mousedown was on scrollbar
         return;
@@ -325,7 +334,7 @@ outputContainer.addEventListener('mousedown', function(e) {
     copyButton.classList.remove("hover");
     copyButton.classList.add("down");
     // ... Your other code ...
-});
+}
 
 
 function isMouseOnVerticalScrollbar(e, container) {
@@ -342,14 +351,18 @@ function isMouseOnVerticalScrollbar(e, container) {
 }
 
 outputContainer.addEventListener('mouseup', function(e) {
-    if (mousedownOnScrollbar || isMouseOnVerticalScrollbar(e, outputContainer)) {
-        return;  // If mousedown was on scrollbar or current mouseup is on scrollbar, don't proceed
-    }
-
-    handleMouseUp(e);
+    handleUp(e);
 });
 
-function handleMouseUp(e) {
+outputContainer.addEventListener('touchend', function(e) {
+    handleUp(e);
+});
+
+
+function handleUp(e) {
+    if (mousedownOnScrollbar || isMouseOnVerticalScrollbar(e, outputContainer)) {
+        return; 
+    }
 	if (isMouseOnVerticalScrollbar(e, outputContainer) || !chunkSizeExceeded) {
         return;
     }

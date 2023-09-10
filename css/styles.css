@@ -752,10 +752,13 @@ input[type="number"] {
 @media only screen and (max-width: 768px) {
     .down {
         margin-top: 8px;
+        background-color: red;
     }
 
     .copy-button {
         transform: translateY(-8px);
     }
+
+
 
 }
