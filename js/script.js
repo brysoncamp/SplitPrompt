@@ -315,11 +315,11 @@ let mousedownOnScrollbar = false;  // Flag to store if mousedown was on scrollba
 // Detect if the device supports touch events
 if ('ontouchstart' in window || window.DocumentTouch && document instanceof window.DocumentTouch) {
     outputContainer.addEventListener('touchstart', function(e) {
-        handleDown(e);
+        handleDown2(e);
     });
     
     outputContainer.addEventListener('touchend', function(e) {
-        handleUp(e);
+        handleUp2(e);
     });
     
 } else {
@@ -351,6 +351,20 @@ function handleDown(e) {
 }
 
 
+function handleDown2(e) {
+
+    if (!e.target.closest('.copy-button')) {
+        return;
+    }
+
+
+	document.querySelector(".copied-text").classList.remove("copied-fade");
+    copyButton.classList.remove("hover");
+    copyButton.classList.add("down");
+    // ... Your other code ...
+}
+
+
 function isMouseOnVerticalScrollbar(e, container) {
     const rect = container.getBoundingClientRect();
     
@@ -364,6 +378,15 @@ function isMouseOnVerticalScrollbar(e, container) {
     return hasVerticalScrollbar && isOnVerticalScrollbar;
 }
 
+function handleUp2(e) {
+    if (!e.target.closest('.copy-button')) {
+        return;
+    }
+    navigator.clipboard.writeText(document.querySelector(".seen").innerText);
+    document.querySelector(".copied-text").classList.add("copied-fade");
+    copyButton.classList.remove("down");
+    handlePromptSelectionAndNavigation();
+}
 
 function handleUp(e) {
     if (mousedownOnScrollbar || isMouseOnVerticalScrollbar(e, outputContainer)) {
