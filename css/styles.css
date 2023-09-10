@@ -602,6 +602,12 @@ body {
     display: inline-block;
 }
 
+
+.color3 {
+    background-color: var(--color-3);
+}
+
+
 @media (min-width: 20.5rem) {
     .title-container {
         align-items: normal;
@@ -749,16 +755,20 @@ input[type="number"] {
 }
 
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 48rem) { /* 768px */
     .down {
         margin-top: 8px;
-        background-color: red;
     }
 
-    .copy-button {
+    .up {
         transform: translateY(-8px);
     }
 
+    .color3 {
+        background-color: var(--color-2);
+    }
 
-
+    .copied-fade {
+        animation: none;
+    }
 }

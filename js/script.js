@@ -204,12 +204,14 @@ function handleOutput() {
 			}
 			promptContainer.appendChild(newDiv);
 			promptTextareas.appendChild(newDiv2);
+            copyButton.classList.add("up");
 		}
 		} else {
-		chunkSizeExceeded = false;
-		copyButton.innerText = "SPLIT NOT REQUIRED";
-		document.querySelector(".prompt-container").style.display = "none";
-		document.querySelector(".info-container").style.display = "block";
+            copyButton.classList.remove("up");
+            chunkSizeExceeded = false;
+            copyButton.innerText = "SPLIT NOT REQUIRED";
+            document.querySelector(".prompt-container").style.display = "none";
+            document.querySelector(".info-container").style.display = "block";
 		}
 }
 
@@ -290,11 +292,12 @@ outputContainer.addEventListener('mouseover', function(e) {
     if (isOverTheVisiblePromptContainer) {
         outputContainer.style.cursor = "default";
         copyButton.classList.remove("hover");
-        outputContainer.style.backgroundColor = "var(--color-2)";
+        outputContainer.classList.remove("color3");
+
     } else {
         outputContainer.style.cursor = "pointer";
         copyButton.classList.add("hover");
-        outputContainer.style.backgroundColor = "var(--color-3)";
+        outputContainer.classList.add("color3");
     }
 });
 
@@ -304,19 +307,30 @@ outputContainer.addEventListener('mouseout', function(e) {
     }*/
     outputContainer.style.cursor = "default";
     copyButton.classList.remove("hover");
-    outputContainer.style.backgroundColor = "var(--color-2)";                                                                                                                                                                                                                                              
+    outputContainer.classList.remove();                                                                                                                                                                                                                                              
 });
 
 let mousedownOnScrollbar = false;  // Flag to store if mousedown was on scrollbar
 
-outputContainer.addEventListener('mousedown', function(e) {
-    handleDown(e)
-});
+// Detect if the device supports touch events
+if ('ontouchstart' in window || window.DocumentTouch && document instanceof window.DocumentTouch) {
+    outputContainer.addEventListener('touchstart', function(e) {
+        handleDown(e);
+    });
+    
+    outputContainer.addEventListener('touchend', function(e) {
+        handleUp(e);
+    });
+    
+} else {
+    outputContainer.addEventListener('mousedown', function(e) {
+        handleDown(e);
+    });
 
-
-outputContainer.addEventListener('touchstart', function() {
-    handleDown(e)
-});
+    outputContainer.addEventListener('mouseup', function(e) {
+        handleUp(e);
+    });
+}
 
 function handleDown(e) {
     if (isMouseOnVerticalScrollbar(e, outputContainer) || !chunkSizeExceeded) {
@@ -349,14 +363,6 @@ function isMouseOnVerticalScrollbar(e, container) {
 
     return hasVerticalScrollbar && isOnVerticalScrollbar;
 }
-
-outputContainer.addEventListener('mouseup', function(e) {
-    handleUp(e);
-});
-
-outputContainer.addEventListener('touchend', function(e) {
-    handleUp(e);
-});
 
 
 function handleUp(e) {
