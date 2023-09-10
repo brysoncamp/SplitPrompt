@@ -24,7 +24,7 @@ themeToggle.addEventListener("click", () => {
   localStorage.setItem("theme", newTheme);
 });
 
-const { encode, decode } = GPTTokenizer_p50k_base; // GPTTokenizer_p50k_base or GPTTokenizer_cl100k_base
+const { encode, decode } = GPTTokenizer_r50k_base; // GPTTokenizer_p50k_base or GPTTokenizer_cl100k_base // 
 
 const textArea = document.getElementById('textArea');
 const clearButton = document.getElementById('clearButton');
@@ -36,11 +36,11 @@ clearButton.addEventListener('click', function() {
   handleOutput();
 });
 
+/*
 function calculateSplitSizes(L, C, O) {
   let n = 1;
   while (L > n * (C - O)) {
-    console.log(n);
-      n++;
+    n++;
   }
   const total = n * O + L;
   const baseSize = Math.floor(total / n);
@@ -51,21 +51,47 @@ function calculateSplitSizes(L, C, O) {
       remainder--;
   }
   return splitSizes;
+}*/
+
+function calculateSplitSizes(L, C) {
+    let n = 1;
+    while (L > n * (C - (2*57+4*n.toString().length))) {
+      n++
+    }
+    const total = n * (2*57+4*n.toString().length) + L;
+    const baseSize = Math.floor(total / n);
+    let remainder = total - n * baseSize;
+    const splitSizes = new Array(n).fill(baseSize - (2*57+4*n.toString().length));
+    for (let i = 0; i < splitSizes.length && remainder > 0; i++) {
+        splitSizes[i]++;
+        remainder--;
+    }
+    return splitSizes;
 }
+  
 
 const tokenCount = document.getElementById("tokenCount");
 
 function throttle(func, delay) {
-  let lastCall = 0;
-  return function(...args) {
-      const now = new Date().getTime();
-      if (now - lastCall < delay) {
-          return;
-      }
-      lastCall = now;
-      return func.apply(this, args);
-  };
+    let timeout = null;
+    let lastArgs = null;
+    let lastThis = null;
+
+    function later() {
+        func.apply(lastThis, lastArgs);
+        timeout = null;
+    }
+
+    return function(...args) {
+        lastArgs = args;
+        lastThis = this;
+
+        if (!timeout) {
+        timeout = setTimeout(later, delay);
+        }
+    };
 }
+  
 
 var chunkSizeExceeded = false;
 
@@ -85,14 +111,12 @@ function handleOutput() {
 	  clearButton.style.display = "none";
 	}
 	const chunkSize = chunkInput.value;
-	if (chunkSize != 0 && encodedTokens.length > chunkSize && chunkSize > 30) {
+	if (chunkSize != 0 && encodedTokens.length > chunkSize && chunkSize > 200) {
 
 		document.querySelector(".prompt-container").style.display = "block";
 		document.querySelector(".info-container").style.display = "none";
 		chunkSizeExceeded = true;
-		console.log(encodedTokens.length, chunkSize);
-		const splitSizes = calculateSplitSizes(encodedTokens.length, chunkSize, 30);
-		console.log("split sizes", splitSizes)
+		const splitSizes = calculateSplitSizes(encodedTokens.length, chunkSize);
 		promptContainer.innerHTML = "";
 		promptTextareas.innerHTML = "";
 		for (let i = 0; i < splitSizes.length; i++) {
@@ -101,81 +125,87 @@ function handleOutput() {
 			const startIndex = splitSizes.slice(0, i).reduce((acc, val) => acc + val, 0);
 			const endIndex = startIndex + splitSizes[i];
 			const tokenChunk = encodedTokens.slice(startIndex, endIndex);
-			newDiv2.innerText = decode(tokenChunk);
-
-
-			const newDiv = document.createElement('div');
+			//newDiv2.innerText = decode(tokenChunk);
+            newDiv2.innerText = `[RESPOND FIRST WITH \"Received Split Prompt ${i+1}/${splitSizes.length}\"][RECALL PREVIOUS GOAL AND RESTATE AS \"Goal:\"][FINISH CUTOFF SECTION OF LAST PROMPT]\n${decode(tokenChunk)}`;
+			
+            
+            //  newDiv2.innerText = `[RESPOND FIRST WITH \"Received Split Prompt ${i+1}/${splitSizes.length}\"][RECALL PREVIOUS GOAL AND RESTATE AS \"Goal:\"][RESPOND TO COMBINED PROMPT AS IF SINGULAR PROMPT]\n${decode(tokenChunk)}\n[RESPOND FIRST WITH \"Received Split Prompt ${i+1}/${splitSizes.length}\"][RECALL PREVIOUS GOAL AND RESTATE AS \"Goal:\"][RESPOND TO COMBINED PROMPT AS IF SINGULAR PROMPT]`;
+			
+           
+            
+            const newDiv = document.createElement('div');
 			newDiv.textContent = `PROMPT ${i + 1}`;
 			newDiv.addEventListener('click', function() {
 
-			const promptAreas = document.querySelectorAll(".prompt-textarea");
-			promptAreas.forEach((area, j) => {
-				if (j === i) {
-					area.classList.add("seen");
-				} else {
-					area.classList.remove("seen");
-				}
-			});
+                const promptAreas = document.querySelectorAll(".prompt-textarea");
+                promptAreas.forEach((area, j) => {
+                    if (j === i) {
+                        area.classList.add("seen");
+                    } else {
+                        area.classList.remove("seen");
+                    }
+                });
 
 
-			const prompts = document.querySelectorAll('.prompt-option-unselected, .prompt-option-selected');
+                const prompts = document.querySelectorAll('.prompt-option-unselected, .prompt-option-selected');
 
-			const currentSelected = document.querySelector('.prompt-option-selected');
-			if (currentSelected) {
-				currentSelected.className = 'prompt-option-unselected';
-			}
-			this.className = 'prompt-option-selected';
-			const containerRect = promptContainer.getBoundingClientRect();
+                const currentSelected = document.querySelector('.prompt-option-selected');
+                if (currentSelected) {
+                    currentSelected.className = 'prompt-option-unselected';
+                }
+                this.className = 'prompt-option-selected';
+                const containerRect = promptContainer.getBoundingClientRect();
 
 
 			
-			if (i === 0) {
-				const firstElementRect = prompts[0].getBoundingClientRect();
-				if (firstElementRect.left < containerRect.left) {
-					promptContainer.scrollLeft -= (containerRect.left - firstElementRect.left + 8);
-				}
-			}
+                if (i === 0) {
+                    const firstElementRect = prompts[0].getBoundingClientRect();
+                    if (firstElementRect.left < containerRect.left) {
+                        promptContainer.scrollLeft -= (containerRect.left - firstElementRect.left + 8);
+                    }
+                }
 
-			// Scrolling logic for the last item
-			else if (i === prompts.length - 1) {
-				const lastElementRect = prompts[prompts.length - 1].getBoundingClientRect();
-				if (lastElementRect.right > containerRect.right) {
-					promptContainer.scrollLeft += (lastElementRect.right - containerRect.right + 28);
-				}
-			}
+                // Scrolling logic for the last item
+                else if (i === prompts.length - 1) {
+                    const lastElementRect = prompts[prompts.length - 1].getBoundingClientRect();
+                    if (lastElementRect.right > containerRect.right) {
+                        promptContainer.scrollLeft += (lastElementRect.right - containerRect.right + 28);
+                    }
+                }
 
-			if (i > 0) {
-				const leftNeighbor = prompts[i - 1].getBoundingClientRect();
-				if (leftNeighbor.left < containerRect.left) {
-					promptContainer.scrollLeft -= (containerRect.left - leftNeighbor.left + 8);
-				}
-			}
-			if (i < prompts.length - 1) {
-				const rightNeighbor = prompts[i + 1].getBoundingClientRect();
-				if (rightNeighbor.right > containerRect.right) {
-					promptContainer.scrollLeft += (rightNeighbor.right - containerRect.right + 28);
-				}
-			}
+                if (i > 0) {
+                    const leftNeighbor = prompts[i - 1].getBoundingClientRect();
+                    if (leftNeighbor.left < containerRect.left) {
+                        promptContainer.scrollLeft -= (containerRect.left - leftNeighbor.left + 8);
+                    }
+                }
+                if (i < prompts.length - 1) {
+                    const rightNeighbor = prompts[i + 1].getBoundingClientRect();
+                    if (rightNeighbor.right > containerRect.right) {
+                        promptContainer.scrollLeft += (rightNeighbor.right - containerRect.right + 28);
+                    }
+                }
 
-			copyButton.innerText = `COPY ${i + 1}/${prompts.length}`;
+                copyButton.innerText = `COPY ${i + 1}/${prompts.length}`;
 
 			});
 			if (i === 0) {
-			newDiv.className = 'prompt-option-selected';
-			const startIndex = splitSizes.slice(0, i).reduce((acc, val) => acc + val, 0);
-			const endIndex = startIndex + splitSizes[i];
-			const tokenChunk = encodedTokens.slice(startIndex, endIndex);
-			//promptTextarea.value = decode(tokenChunk);
-			newDiv2.classList.add("seen");
-			copyButton.innerText = `COPY 1/${splitSizes.length}`;
+                newDiv.className = 'prompt-option-selected';
+                /*
+                const startIndex = splitSizes.slice(0, i).reduce((acc, val) => acc + val, 0);
+                const endIndex = startIndex + splitSizes[i];
+                const tokenChunk = encodedTokens.slice(startIndex, endIndex);*/
+                newDiv2.innerText = `[RESPOND FIRST WITH \"Received Split Prompt 1/${splitSizes.length}\"][ASCERTAIN PROMPT GOAL AND STATE AS \"Goal:\"][RESPOND TO COMPLETE PROMPT]\n${decode(tokenChunk)}`;
+                //promptTextarea.value = decode(tokenChunk);
+                newDiv2.classList.add("seen");
+                copyButton.innerText = `COPY 1/${splitSizes.length}`;
 			} else {
-			newDiv.className = 'prompt-option-unselected';
+			    newDiv.className = 'prompt-option-unselected';
 			}
 			promptContainer.appendChild(newDiv);
 			promptTextareas.appendChild(newDiv2);
 		}
 		} else {
-		console.log("empty");
 		chunkSizeExceeded = false;
 		copyButton.innerText = "SPLIT NOT REQUIRED";
 		document.querySelector(".prompt-container").style.display = "none";
@@ -223,18 +253,12 @@ prompts.forEach((prompt, index) => {
     });
 });*/
 
+const promptSelection = document.querySelector(".prompt-selection");
 
-if (!('ontouchstart' in window)) {
-  promptContainer.addEventListener('wheel', function(event) {
-      this.scrollLeft += event.deltaY;
-      event.preventDefault();
-  }, { passive: false });
-}
-
-
-
-
-
+promptSelection.addEventListener('wheel', function(event) {
+	this.scrollLeft += (event.deltaY);
+	event.preventDefault();
+}, { passive: false });
 
 /*
 // Check if the browser supports a particular pseudo-element
@@ -266,11 +290,11 @@ outputContainer.addEventListener('mouseover', function(e) {
     if (isOverTheVisiblePromptContainer) {
         outputContainer.style.cursor = "default";
         copyButton.classList.remove("hover");
-        outputContainer.style.backgroundColor = "#f6f6f6";
+        outputContainer.style.backgroundColor = "var(--color-2)";
     } else {
         outputContainer.style.cursor = "pointer";
         copyButton.classList.add("hover");
-        outputContainer.style.backgroundColor = "#e6e6e6";
+        outputContainer.style.backgroundColor = "var(--color-3)";
     }
 });
 
@@ -280,7 +304,7 @@ outputContainer.addEventListener('mouseout', function(e) {
     }*/
     outputContainer.style.cursor = "default";
     copyButton.classList.remove("hover");
-    outputContainer.style.backgroundColor = "#f6f6f6";                                                                                                                                                                                                                                              
+    outputContainer.style.backgroundColor = "var(--color-2)";                                                                                                                                                                                                                                              
 });
 
 let mousedownOnScrollbar = false;  // Flag to store if mousedown was on scrollbar
@@ -329,6 +353,7 @@ function handleMouseUp(e) {
         return;
     }
     if (!isOverVisiblePromptContainer(e.target)) {
+        navigator.clipboard.writeText(document.querySelector(".seen").innerText);
 		document.querySelector(".copied-text").classList.add("copied-fade");
         handlePromptSelectionAndNavigation();
     }

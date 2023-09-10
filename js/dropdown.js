@@ -87,9 +87,9 @@ function updateUnselectedOptions(newSelected) {
 function getChunkValue(option) {
     switch (option) {
         case "GPT-3.5":
-            return 16372;
+            return 3000; // 16372
         case "GPT-4":
-            return 8170;
+            return 2500; // 8170
         case "CUSTOM":
             return localStorage.getItem("customChunk") || "";
         default:
