@@ -323,6 +323,7 @@ outputContainer.addEventListener('mousedown', function(e) {
 
 	document.querySelector(".copied-text").classList.remove("copied-fade");
     copyButton.classList.remove("hover");
+    copyButton.classList.add("down");
     // ... Your other code ...
 });
 
@@ -355,6 +356,7 @@ function handleMouseUp(e) {
     if (!isOverVisiblePromptContainer(e.target)) {
         navigator.clipboard.writeText(document.querySelector(".seen").innerText);
 		document.querySelector(".copied-text").classList.add("copied-fade");
+        copyButton.classList.remove("down");
         handlePromptSelectionAndNavigation();
     }
 }

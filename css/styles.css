@@ -231,6 +231,7 @@ body {
     overflow: hidden;
     justify-content: space-between;
     background-color: var(--color-2);
+    -webkit-tap-highlight-color: transparent;
 }   
 
 /*
@@ -476,7 +477,6 @@ body {
 }
 
 .hover {
-   
     transform: translateY(-8px);
     cursor: pointer;
 }
@@ -749,3 +749,13 @@ input[type="number"] {
 }
 
 
+@media only screen and (max-width: 768px) {
+    .down {
+        margin-top: 8px;
+    }
+
+    .copy-button {
+        transform: translateY(-8px);
+    }
+
+}
