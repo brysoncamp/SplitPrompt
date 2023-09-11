@@ -2,7 +2,15 @@
 <html lang="en">
 <head>
     <title>Split Prompt - Bypass ChatGPT Token Limit</title>
-    <meta name="description" content="Exceed ChatGPT's word and character limits with Split Prompt. Send longer prompts by splitting them into 4096-token chunks.">
+	<script type="application/ld+json">
+	{
+		"@context" : "https://schema.org",
+		"@type" : "WebSite",
+		"name" : "Split Prompt",
+		"url" : "https://www.splitprompt.com/"
+	}
+	</script>
+    <meta name="description" content="Exceed ChatGPT's word and character limits with Split Prompt. Send longer prompts by splitting them into ChatGPT-ready chunks using token-counting.">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <script>
@@ -10,18 +18,14 @@
       	const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
       	document.documentElement.dataset.theme = storedTheme ?? (prefersDark ? "dark" : "light");
     </script>
-    <link rel="icon" href="assets/svg/favicon.svg" type="image/svg+xml">
-    <link rel="icon" href="assets/images/favicon-dark-32x32.png" type="image/png" sizes="32x32" media="(prefers-color-scheme: dark)">
-    <link rel="icon" href="assets/images/favicon-dark-16x16.png" type="image/png" sizes="16x16" media="(prefers-color-scheme: dark)">
-    <link rel="icon" href="assets/images/favicon-light-32x32.png" type="image/png" sizes="32x32">
-    <link rel="icon" href="assets/images/favicon-light-16x16.png" type="image/png" sizes="16x16">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="/assets/images/favicon-dark-32x32.png" type="image/png" sizes="32x32" media="(prefers-color-scheme: dark)">
+    <link rel="icon" href="/assets/images/favicon-dark-16x16.png" type="image/png" sizes="16x16" media="(prefers-color-scheme: dark)">
+    <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32">
+    <link rel="icon" href="/assets/images/favicon-light-16x16.png" type="image/png" sizes="16x16">
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-	<div itemscope itemtype="https://schema.org/WebSite">
-		<meta itemprop="url" content="https://www.splitprompt.com/"/>
-		<meta itemprop="name" content="Split Prompt"/>
-	</div>
 	<div id="themeToggle" class="theme-toggle" tabindex="0" role="button" aria-pressed="false">
 		<svg id="sunSvg" viewBox="0 0 24 24" class="theme-svg" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4" fill="#eeeeee"/><path stroke="#eeeeee" stroke-linecap="round" stroke-width="2" d="M12 5V3M12 21v-2M16.95 7.05l1.41-1.41M5.64 18.36l1.41-1.41M19 12h2M3 12h2M16.95 16.95l1.41 1.41M5.64 5.64l1.41 1.41"/></svg>
 		<svg id="moonSvg" viewBox="0 0 24 24" class="theme-svg" xmlns="http://www.w3.org/2000/svg"><path fill="#141414" d="M12.06 3.6a1 1 0 0 0-.91-1.56 10 10 0 1 0 10.81 10.81 1 1 0 0 0-1.56-.9 6 6 0 0 1-8.34-8.34Z"/></svg>  
