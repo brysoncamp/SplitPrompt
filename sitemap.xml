@@ -2,8 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>https://www.splitprompt.com/</loc>
-        <lastmod>2023-09-11</lastmod>
-        <changefreq>daily</changefreq>
+        <lastmod>2023-09-16</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>1.0</priority>
+    </url>
+    <url>
+        <loc>https://www.splitprompt.com/blog/beyond-4096-chatgpt-misunderstood-token-limits</loc>
+        <lastmod>2023-09-16</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
     </url>
 </urlset>
