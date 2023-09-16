@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Beyond 4096: ChatGPT's Misunderstood Token Limits</title>
+	<script type="application/ld+json">
+	{
+		"@context" : "https://schema.org",
+		"@type" : "WebSite",
+		"name" : "Split Prompt",
+		"url" : "https://www.splitprompt.com/"
+	}
+	</script>
+    <meta name="description" content="A cursory online search suggests that both GPT-3.5 and GPT-4 operate within a 4,096 token limit. However, this is not accurate. As will be demonstrated within this article, both models allow inputs…">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script>
+    	const storedTheme = localStorage.getItem("theme");
+      	const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      	document.documentElement.dataset.theme = storedTheme ?? (prefersDark ? "dark" : "light");
+    </script>
+	<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+	<link rel="icon" href="/assets/images/favicon-dark-48x48.png" type="image/png" sizes="48x48" media="(prefers-color-scheme: dark)">
+	<link rel="icon" href="/assets/images/favicon-dark-32x32.png" type="image/png" sizes="32x32" media="(prefers-color-scheme: dark)">
+	<link rel="icon" href="/assets/images/favicon-dark-16x16.png" type="image/png" sizes="16x16" media="(prefers-color-scheme: dark)">
+	<link rel="icon" href="/assets/images/favicon-light-48x48.png" type="image/png" sizes="48x48">
+	<link rel="icon" href="/assets/images/favicon-light-32x32.png" type="image/png" sizes="32x32">
+	<link rel="icon" href="/assets/images/favicon-light-16x16.png" type="image/png" sizes="16x16">
+	<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+	<link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../css/blog-styles.css">
+</head>
+<body>
+	<div itemscope itemtype="https://schema.org/WebSite">
+        <meta itemprop="url" content="https://www.splitprompt.com/"/>
+        <meta itemprop="name" content="Split Prompt"/>
+    </div>
+	<header>
+		<a href="/" class="split-prompt-button no-select">
+			<div class="logo-container">
+				<div class="circle-icon" id="circleUpper"></div>
+				<div class="circle-icon" id="circleLower"></div>
+			</div>
+			<h4 class="title-text">Split&nbsp;Prompt</h4>
+			<div class="try-button">TRY&nbsp;NOW</div>
+		</a>
+		<div id="themeToggle" class="theme-toggle" tabindex="0" role="button" aria-pressed="false">
+			<svg id="sunSvg" viewBox="0 0 24 24" class="theme-svg" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4" fill="#eeeeee"/><path stroke="#eeeeee" stroke-linecap="round" stroke-width="2" d="M12 5V3M12 21v-2M16.95 7.05l1.41-1.41M5.64 18.36l1.41-1.41M19 12h2M3 12h2M16.95 16.95l1.41 1.41M5.64 5.64l1.41 1.41"/></svg>
+			<svg id="moonSvg" viewBox="0 0 24 24" class="theme-svg" xmlns="http://www.w3.org/2000/svg"><path fill="#141414" d="M12.06 3.6a1 1 0 0 0-.91-1.56 10 10 0 1 0 10.81 10.81 1 1 0 0 0-1.56-.9 6 6 0 0 1-8.34-8.34Z"/></svg>  
+		</div>
+	</header>
+    <main>
+        <h1> Beyond 4096: ChatGPT's <br/> Misunderstood Token Limits</h1>
+		<h2> An Exploration into the Genuine Capacities of GPT-3.5 and GPT-4 </h2>
+		<hr>
+		<h5>By <a href="/">Split Prompt</a> &nbsp;<span class="middot">&middot;</span>&nbsp; 7 min read &nbsp;<span class="middot">&middot;</span>&nbsp; 16 Sep 2023</h5>
+		<hr>
+		<img src="../assets/images/lengthy-text.png" />
+		<div class="snippet">
+			<b>TL;DR:</b><br/><br/>
+			GPT-3.5 and GPT-4 do not max out at 4,096 tokens.<br/>
+			<ul>
+				<li>- <b>GPT-3.5</b> can accept prompts up to <b>16,362</b> tokens</li>
+				<li>- <b>GPT-4</b> can accept prompts up to <b>8,170</b> tokens</li>
+			</ul>
+			Although approaching these limits may yeild undesireable outcomes.
+		</div>
+		<h3>Understanding Token Limits: Myth vs. Reality</h3>
+		<p>A cursory online search suggests that both GPT-3.5 and GPT-4 operate within a 4,096 token limit. However, this is not accurate. As will be demonstrated within this article, both models allow inputs of far greater token size.</p>
+		<p>For clarity, our focus is the <b>non-API</b> variants, the models most people interact with at <a href="https://chat.openai.com/" target="_blank" rel="noopener noreferrer">chat.openai.com</a>. Specifically, we will be determining the exact number of tokens before ChatGPT gives us an explicit error message.</p>
+		<img src="../assets/images/too-long.png" />
+		<h6>Error Message: For those fortunately unacquainted</h6>
+		<p>An important note: the token count for any given text is dependent on the method of encoding. We later determine that the website version still uses the older <i>r50k_base</i> encoding shown on OpenAI’s <a href="https://platform.openai.com/tokenizer" target="_blank" rel="noopener noreferrer">Tokenizer</a> under GPT-3.</p>
+		<p>These experiments were conducted to help inform our ChatGPT Prompt Splitter tool named <b>Split Prompt</b>, available for use <a href="/">here</a>.</p>
+		<div class="breaker no-select">&middot;&nbsp; &middot;&nbsp; &middot;</div>
+		<h3>Experiment 1: Analyzing Token Limit Without Encoder Bias</h3>
+		<p>To begin with, as we are uncertain of the underlying encoder being used, we will make use of a token universally accepted across encoders. Consider the simple string “ a”, comprised of a singular space and the letter a. Regardless of the tokenizer, this character combination is consistently recognized as a single token. This allows us to test token limits irrespective of encoding method.</p>
+		<p>Here is an example of what our test prompt looked like, except the “ a” string was repeated 8,192 times.</p>
+		<div class="copy no-select">Copy</div>
+		<div class="snippet long"><pre data-replicate="8192"> a</pre></div>
+		<h3>Our results for GPT-3.5</h3>
+		<p>GPT-3.5 was always able to respond to the prompt, as demonstrated in the conversation below.</p>
+		<img src="../assets/images/rear-panel.png" />
+		<h6>View full conversation <a href="https://chat.openai.com/share/93be23ae-4530-430f-89cc-3108cab07580" target="_blank" rel="noopener noreferrer">here</a></h6>
+		<p>This prompt was trialed many times, each response being as random and unrelated as the last. Although admittedly, a series of the letter a has very little contextual meaning for GPT-3.5 to interpret correctly to begin with.</p>
+		<h3>Our results for GPT-4</h3>
+		<p>Interestingly, GPT-4 is unable to accept such a large input, greeting us with the familiar error message below.</p>
+		<img src="../assets/images/too-long.png" />
+		<h6>Unfortunately conversations with errors cannot be shared</h6>
+		<p>This may be unexpected considering GPT-4 is the newer model. However, its resource-intensive nature may explain the harsher restriction.</p>
+		<div class="breaker no-select">&middot;&nbsp; &middot;&nbsp; &middot;</div>
+		<h3>Experiment 2: Finding Specific Limits for GPT-3.5 and GPT-4</h3>
+		<p>I will spare you the nitty-gritty of the discovery process, but rest assured that much trial and error occurred. Below are the exact limits manually found for both GPT-3.5 and GPT-4.</p>
+		<h3>GPT-3.5 – 16,362 tokens</h3>
+		<div class="copy no-select">Copy</div>
+		<div class="snippet long"><pre data-replicate="16362"> a</pre></div>
+		<p>Take note of the number of tokens. It is exactly 22 below 16,384 (or 2¹⁴). This will be relevant in a second.</p>
+		<p>The response from ChatGPT is again unrelated to the string of a’s. It also seems inclined to provide a lengthy response to our lengthy input.</p>
+		<img src="../assets/images/soy-milk.png" />
+		<h6>View full conversation <a href="https://chat.openai.com/share/e8fb7bb2-10fd-4137-890d-88d0dbc37143" target="_blank" rel="noopener noreferrer">here</a></h6>
+		<p>You can test this yourself by copying the prompt from the conversation linked above. Try adding another “ a” and see the error message.</p>
+		<h3>GPT-4 – 8,170 tokens</h3>
+		<div class="copy no-select">Copy</div>
+		<div class="snippet long"><pre data-replicate="8170"> a</pre></div>
+		<p>Interestingly GPT-4’s token limit is again exactly 22 tokens below a power of 2. In this case 8,192 (or 2¹³). This indicates that the ChatGPT application likely appends prompts with a footer of 22 token length.</p>
+		<img src="../assets/images/repeated-letter.png" />
+		<h6>View full conversation <a href="https://chat.openai.com/share/1490320e-533b-4480-9f82-8beb87da9904" target="_blank" rel="noopener noreferrer">here</a></h6>
+		<p>GPT-4’s short response proves its superior context awareness over GPT-3.5. It recognizes the senselessness of the string of a’s and asks for clarity.</p>
+		<p><i>“followed by a partial sentence”</i></p>
+		<p>Notice this observation by ChatGPT. It is the inclusion of this across several tests that leads me to believe it is indeed a footer of some kind being added.</p>
+		<div class="breaker no-select">&middot;&nbsp; &middot;&nbsp; &middot;</div>
+		<h3>Experiment 3: Determining Encoding Method</h3>
+		<p>So far we have found exact token capacities for GPT-3.5 and GPT-4 using our universally interpreted “ a" token. However, for practical purposes, knowledge of the underlying encoding method is desired.</p>
+		<p>First we will distinguish the modern “cl100k_base” encoder from older techniques. Many sites claim that both GPT-3 and GPT-4 use this method, although I believe this is in reference to the API variants.</p>
+		<p>As shown below, we will be exploiting the difference in how the “ abc” string is tokenized to distinguish between encoders. These images were generated using this <a href="https://gpt-tokenizer.dev" target="_blank" rel="noopener noreferrer">site</a>.</p>
+		<img src="../assets/images/abc-abc.png"/>
+		<h6>cl100k_base</h6>
+		<img src="../assets/images/ab-c.png"/>
+		<h6>p50k_base / r50k_base</h6>
+		<p>In the modern encoding technique, " abc" is recognized as a single token. Thus, if used by GPT-3.5, an input of this sequence repeated 16,362 times would be accepted. This is not the case.</p>
+		<div class="copy no-select">Copy</div>
+		<div class="snippet long"><pre data-replicate="16362"> abc</pre></div>
+		<p>GPT-3.5 will throw the "too long" error, indicating that it is not using cl100k_base. The same is true for GPT-4 with a test series of 8,170 repeats.</p>
+		<div class="copy no-select">Copy</div>
+		<div class="snippet long"><pre data-replicate="8170"> abc</pre></div>
+		<p>Ruling out cl100k_base, we now need to differentiate further between p50k_base and r50k_base. To do this we will use how spaces are interpreted.</p>
+		<img src="../assets/images/long-space.png"/>
+		<h6>p50k_base</h6>
+		<img src="../assets/images/short-space.png"/>
+		<h6>r50k_base</h6>
+		<p>There is quite a significant difference here. The older r50k_base will encode every space as a separate token. As such, we will test the impact of whitespace on token limits.</p>
+		<p>This is where researching this topic got extremely tricky. The reason being that it appears ChatGPT does not truly use either of these encoders. Let me explain with another practical test.</p>
+		<p>Going back to the long series of a's at the exact limit 8,170 token-limit for GPT-4, the last a was removed. This allowed us to replaces it with spaces until the input is no longer accepted.</p>
+		<div class="copy no-select">Copy</div>
+		<div class="snippet long"><pre data-replicate="8169" data-add="   "> a</pre></div>
+		<p><b>Result:</b> GPT-4 accepts a last token when it is 3 spaces long but not when it is 4 spaces long.</p>
+		<p>This was a very confusing result to find as it does not indicate either encoding method. If r50k_base was being used, we would not expect it to accept a last token of 3 spaces long. Yet, if p50k_base was being used, we would expect it to accept a last token of 4 spaces long.</p>
+		<p>The only logical conclusion is that neither encoder is being used.</p>
+		<p>As such, for our encoder in Split Prompt, we opted to use the r50k_base. Due to it being a slight overestimate, we can ensure that split prompts will not exceed the maximum token threshold. Additionally, it is a closer approximation to the true count.</p>
+		<div class="breaker no-select">&middot;&nbsp; &middot;&nbsp; &middot;</div>
+		<h3>Conclusion</h3>
+		<p>To better grasp the true token capacities of GPT-3.5 and GPT-4, we delved deeper and found that their limits surpass the commonly mentioned 4,096 tokens. Specifically, GPT-3.5 can handle a substantial 16,362 tokens, while GPT-4 can accommodate up to 8,170 tokens. However, there is a caveat to approaching these boundaries, particularly for GPT-3.5, as the responses received appear independent of any input given.</p>
+		<p>Our exploration into their encoding methodologies revealed that these models do not strictly follow any speculated encoder. Still, for those looking to establish a token upper limit, the r50k_base encoder serves as a prudent benchmark.</p>
+		<p>Keep an eye out for our upcoming article, where we'll further examine the practical limitations of these models, pinpointing the exact token threshold where ChatGPT struggles to accurately interpret questions.</p>
+		<div style="height: 100px"></div>
+		<h4 class="center">Our ChatGPT Prompt Splitter:</h4><br/><br/>
+		<a href="/" class="split-prompt-button no-select center">
+			<div class="logo-container">
+				<div class="circle-icon" id="circleUpper"></div>
+				<div class="circle-icon" id="circleLower"></div>
+			</div>
+			<h4 class="title-text">Split&nbsp;Prompt</h4>
+			<div class="try-button">TRY&nbsp;NOW</div>
+		</a>
+		<div style="height: 100px"></div>
+	</main>
+	<script src="../js/theme.js"></script>
+	<script src="../js/blog-script.js"></script>
+</body>
+</html>
