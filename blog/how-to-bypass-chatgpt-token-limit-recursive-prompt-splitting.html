@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>How to Bypass ChatGPT’s Token Limit: Recursive Prompt Splitting</title>
+	<script type="application/ld+json">
+	{
+		"@context" : "https://schema.org",
+		"@type" : "WebSite",
+		"name" : "Split Prompt",
+		"url" : "https://www.splitprompt.com/"
+	}
+	</script>
+    <meta name="description" content="ChatGPT has set the bar high for AI conversations, making it a favorite amongst enthusiasts and professionals alike. As user queries have grown in complexity and demand, so too has the length of…">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script>
+    	const storedTheme = localStorage.getItem("theme");
+      	const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      	document.documentElement.dataset.theme = storedTheme ?? (prefersDark ? "dark" : "light");
+    </script>
+	<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+	<link rel="icon" href="/assets/images/favicon-dark-48x48.png" type="image/png" sizes="48x48" media="(prefers-color-scheme: dark)">
+	<link rel="icon" href="/assets/images/favicon-dark-32x32.png" type="image/png" sizes="32x32" media="(prefers-color-scheme: dark)">
+	<link rel="icon" href="/assets/images/favicon-dark-16x16.png" type="image/png" sizes="16x16" media="(prefers-color-scheme: dark)">
+	<link rel="icon" href="/assets/images/favicon-light-48x48.png" type="image/png" sizes="48x48">
+	<link rel="icon" href="/assets/images/favicon-light-32x32.png" type="image/png" sizes="32x32">
+	<link rel="icon" href="/assets/images/favicon-light-16x16.png" type="image/png" sizes="16x16">
+	<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+	<link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../css/blog-styles.css">
+</head>
+<body>
+	<div itemscope itemtype="https://schema.org/WebSite">
+        <meta itemprop="url" content="https://www.splitprompt.com/"/>
+        <meta itemprop="name" content="Split Prompt"/>
+    </div>
+	<header>
+		<a href="/" class="split-prompt-button no-select">
+			<div class="logo-container">
+				<div class="circle-icon" id="circleUpper"></div>
+				<div class="circle-icon" id="circleLower"></div>
+			</div>
+			<h4 class="title-text">Split&nbsp;Prompt</h4>
+			<div class="try-button">TRY&nbsp;NOW</div>
+		</a>
+		<div id="themeToggle" class="theme-toggle" tabindex="0" role="button" aria-pressed="false">
+			<svg id="sunSvg" viewBox="0 0 24 24" class="theme-svg" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4" fill="#eeeeee"/><path stroke="#eeeeee" stroke-linecap="round" stroke-width="2" d="M12 5V3M12 21v-2M16.95 7.05l1.41-1.41M5.64 18.36l1.41-1.41M19 12h2M3 12h2M16.95 16.95l1.41 1.41M5.64 5.64l1.41 1.41"/></svg>
+			<svg id="moonSvg" viewBox="0 0 24 24" class="theme-svg" xmlns="http://www.w3.org/2000/svg"><path fill="#141414" d="M12.06 3.6a1 1 0 0 0-.91-1.56 10 10 0 1 0 10.81 10.81 1 1 0 0 0-1.56-.9 6 6 0 0 1-8.34-8.34Z"/></svg>  
+		</div>
+	</header>
+    <main>
+        <h1> How to Bypass ChatGPT’s Token Limit: Recursive Prompt Splitting </h1>
+		<hr>
+		<h5>By <a href="/">Split Prompt</a> &nbsp;<span class="middot">&middot;</span>&nbsp; 2 min read &nbsp;<span class="middot">&middot;</span>&nbsp; 21 Sep 2023</h5>
+		<hr>
+		<p>ChatGPT has set the bar high for AI conversations, making it a favorite amongst enthusiasts and professionals alike. As user queries have grown in complexity and demand, so too has the length of their prompts. This is evident in situations where users provide extensive inputs, such as large code dumps, intricate narratives, or detailed problem descriptions.</p>
+		<h3>Why the Need for a Prompt Splitter?</h3>
+		<p>First, we need to understand the two fundamental limitations of ChatGPT: the token limit and the context window.</p>
+		<p><b>Token Limit:</b> A 'token' in ChatGPT can range from a single character to a whole word. ChatGPT can only process a set number of these tokens in a single input before rejecting the prompt.</p>
+		<p><b>Context Window:</b> ChatGPT can only remember a limited amount of the conversation history. As discussions progress, earlier segments fall out of this window, no longer influencing its replies.</p>
+		<p>A prompt splitter tool can help navigate these constrains, enabling ChatGPT to process extended prompts seamlessly.</p>
+		<h3>The Flaw in Most Prompt Splitters</h3>
+		<p>Many prompt splitters online successfully divide a long prompt into smaller chunks, to fit within the token limit. However, they neglect the underlying context window. These tools attempt to have ChatGPT respond only after presenting all the split chunks. However, when these combined splits exceed the context window, ChatGPT loses sight of earlier segments, and is often unaware of their interconnected nature. This defeats the purpose of a prompt splitter, as only a partial input is considered.</p>
+		<h3>Introducing Split Prompt: A Recursive Solution</h3>
+		<p>Unlike its competitors, Split Prompt doesn’t just split; it remembers. The secret sauce is our two-pronged strategy: iterative processing and recursive feedback.</p>
+		<ol>
+			<li><b>Iterative Approach:</b> Instead of bundling content and processing it at the end, Split Prompt divides and conquers, ensuring each segment will fit within the subsequent prompt’s context window</li>
+			<li><b>Recursive Context Reinforcement:</b> Each subsequent segment is cued to the context of the preceding prompt, maintaining continuity and ensuring the AI retains a holistic grasp of the overall narrative.</li>
+		</ol>
+		<p>
+			With these innovative methods, Split Prompt bridges the gap between lengthy user inputs and ChatGPT’s processing limitations. Users can now engage in more complex conversations without sacrificing the essence or context of their queries.
+		</p>
+		<div style="height: 100px"></div>
+		<h4 class="center">Our ChatGPT Prompt Splitter:</h4><br/><br/>
+		<a href="/" class="split-prompt-button no-select center">
+			<div class="logo-container">
+				<div class="circle-icon" id="circleUpper"></div>
+				<div class="circle-icon" id="circleLower"></div>
+			</div>
+			<h4 class="title-text">Split&nbsp;Prompt</h4>
+			<div class="try-button">TRY&nbsp;NOW</div>
+		</a>
+		<div style="height: 100px"></div>
+	</main>
+	<script src="../js/theme.js"></script>
+	<script src="../js/blog-script.js"></script>
+</body>
+</html>

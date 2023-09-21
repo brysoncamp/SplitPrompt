@@ -129,7 +129,7 @@ h3 {
     color: var(--color-6);
 }
 
-p {
+p, ol {
     margin: 0;
     margin-top: 1.7rem;
     font-size: 22px;
@@ -137,11 +137,19 @@ p {
     color: var(--color-7); 
 }
 
-p b {
+p b, ol b {
     color: var(--color-6);
     font-family: 'Roboto';
     font-size: 19px;
     margin-bottom: 0;
+}
+
+ol li {
+    padding-bottom: 1.5rem;
+}
+
+ol li:last-child {
+    padding-bottom: 0;
 }
 
 a {
