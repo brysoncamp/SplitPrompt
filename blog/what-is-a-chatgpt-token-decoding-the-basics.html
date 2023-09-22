@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>What is a ChatGPT Token? Decoding the Basics</title>
+	<script type="application/ld+json">
+	{
+		"@context" : "https://schema.org",
+		"@type" : "WebSite",
+		"name" : "Split Prompt",
+		"url" : "https://www.splitprompt.com/"
+	}
+	</script>
+    <meta name="description" content="ChatGPT has set the bar high for AI conversations, making it a favorite amongst enthusiasts and professionals alike. As user queries have grown in complexity and demand, so too has the length of…">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script>
+    	const storedTheme = localStorage.getItem("theme");
+      	const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      	document.documentElement.dataset.theme = storedTheme ?? (prefersDark ? "dark" : "light");
+    </script>
+	<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+	<link rel="icon" href="/assets/images/favicon-dark-48x48.png" type="image/png" sizes="48x48" media="(prefers-color-scheme: dark)">
+	<link rel="icon" href="/assets/images/favicon-dark-32x32.png" type="image/png" sizes="32x32" media="(prefers-color-scheme: dark)">
+	<link rel="icon" href="/assets/images/favicon-dark-16x16.png" type="image/png" sizes="16x16" media="(prefers-color-scheme: dark)">
+	<link rel="icon" href="/assets/images/favicon-light-48x48.png" type="image/png" sizes="48x48">
+	<link rel="icon" href="/assets/images/favicon-light-32x32.png" type="image/png" sizes="32x32">
+	<link rel="icon" href="/assets/images/favicon-light-16x16.png" type="image/png" sizes="16x16">
+	<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+	<link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../css/blog-styles.css">
+</head>
+<body>
+	<div itemscope itemtype="https://schema.org/WebSite">
+        <meta itemprop="url" content="https://www.splitprompt.com/"/>
+        <meta itemprop="name" content="Split Prompt"/>
+    </div>
+	<header>
+		<a href="/" class="split-prompt-button no-select">
+			<div class="logo-container">
+				<div class="circle-icon" id="circleUpper"></div>
+				<div class="circle-icon" id="circleLower"></div>
+			</div>
+			<h4 class="title-text">Split&nbsp;Prompt</h4>
+			<div class="try-button">TRY&nbsp;NOW</div>
+		</a>
+		<div id="themeToggle" class="theme-toggle" tabindex="0" role="button" aria-pressed="false">
+			<svg id="sunSvg" viewBox="0 0 24 24" class="theme-svg" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4" fill="#eeeeee"/><path stroke="#eeeeee" stroke-linecap="round" stroke-width="2" d="M12 5V3M12 21v-2M16.95 7.05l1.41-1.41M5.64 18.36l1.41-1.41M19 12h2M3 12h2M16.95 16.95l1.41 1.41M5.64 5.64l1.41 1.41"/></svg>
+			<svg id="moonSvg" viewBox="0 0 24 24" class="theme-svg" xmlns="http://www.w3.org/2000/svg"><path fill="#141414" d="M12.06 3.6a1 1 0 0 0-.91-1.56 10 10 0 1 0 10.81 10.81 1 1 0 0 0-1.56-.9 6 6 0 0 1-8.34-8.34Z"/></svg>  
+		</div>
+	</header>
+    <main>
+        <h1>What is a ChatGPT Token? Decoding the Basics</h1>
+		<hr>
+		<h5>By <a href="/">Split Prompt</a> &nbsp;<span class="middot">&middot;</span>&nbsp; 2 min read &nbsp;<span class="middot">&middot;</span>&nbsp; 22 Sep 2023</h5>
+		<hr>
+		<p>If you've found yourself asking "what is a ChatGPT token?", you're in the right place. The concept of tokens, is integral to how modern language models function. This article provides an introductory understanding of ChatGPT tokens and their underlying purpose.</p>
+		<h3>What Exactly is a ChatGPT Token?</h3>
+		<p>A token, in the realm of natural language processing (NLP), is a unit or chunk of text. In simple terms, think of it as a combination of characters that are often used together. A token can be a single letter, part of a word, or even a whole word.</p>
+		<img src="../assets/images/tokenization-example.png" />
+		<h3>The Significance of ChatGPT Tokens</h3>
+		<p>Here's why tokenization is the backbone of ChatGPT:</p>
+		<ol>
+			<li><b>Data Breakdown:</b> Tokens allow ChatGPT to dissect textual data into processable units.</li>
+			<li><b>Efficiency:</b> Tokens streamline the training process, letting ChatGPT learn patterns faster.</li>
+			<li><b>Adaptability:</b> Tokens ensure ChatGPT's compatibility with various languages and scripts.</li>
+		</ol>
+		<h3>ChatGPT's Token Lifecycle</h3>
+		<ol>
+			<li><b>Tokenization of Input:</b> ChatGPT divides your text into recognizable tokens.</li>
+			<li><b>Token Comprehension:</b> These tokens are analyzed to understand context and relationships.</li>
+			<li><b>Response Creation:</b> Based on the token analysis, ChatGPT crafts a response.</li>
+			<li><b>Detokenization:</b> The model then converts tokens back into a user-friendly output.</li>
+		</ol>
+		<h3>Navigating ChatGPT Token Limits</h3>
+		<p>Every ChatGPT model, due to the constraints of the underlying transformer architecture, must have a maximum token limit on inputs. When prompts surpass this limit, they require truncation, splitting, or other adjustments.</p>
+		<p>To address this challenge, we created <a href="/">Split Prompt</a>. This user-friendly tool processes extended ChatGPT prompts, taking into account the model's limited context window, to offer a novel recursive long-prompt solution.</p>
+
+
+		<div style="height: 100px"></div>
+		<h4 class="center">Our ChatGPT Prompt Splitter:</h4><br/><br/>
+		<a href="/" class="split-prompt-button no-select center">
+			<div class="logo-container">
+				<div class="circle-icon" id="circleUpper"></div>
+				<div class="circle-icon" id="circleLower"></div>
+			</div>
+			<h4 class="title-text">Split&nbsp;Prompt</h4>
+			<div class="try-button">TRY&nbsp;NOW</div>
+		</a>
+		<div style="height: 100px"></div>
+	</main>
+	<script src="../js/theme.js"></script>
+	<script src="../js/blog-script.js"></script>
+</body>
+</html>
