@@ -24,4 +24,16 @@
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
+    <url>
+        <loc>https://www.splitprompt.com/blog/understanding-tokenization-how-are-chatgpt-tokens-calculated</loc>
+        <lastmod>2023-09-24</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.splitprompt.com/blog/decoding-chatgpt-word-limit-its-actually-about-tokens</loc>
+        <lastmod>2023-09-24</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
 </urlset>

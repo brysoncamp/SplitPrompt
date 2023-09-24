@@ -129,7 +129,7 @@ h3 {
     color: var(--color-6);
 }
 
-p, ol {
+p, ol, ul {
     margin: 0;
     margin-top: 1.7rem;
     font-size: 22px;
@@ -137,18 +137,18 @@ p, ol {
     color: var(--color-7); 
 }
 
-p b, ol b {
+p b, ol b, ul b {
     color: var(--color-6);
     font-family: 'Roboto';
     font-size: 20px;
     margin-bottom: 0;
 }
 
-ol li {
+ol li, ul li {
     padding-bottom: 1.5rem;
 }
 
-ol li:last-child {
+ol li:last-child,  ul li:last-child{
     padding-bottom: 0;
 }
 
@@ -195,7 +195,7 @@ img {
     margin-top: 2rem;
 }
 
-ul {
+.no-dot-ul {
     list-style-type: none; 
     padding-left: 0;
 }

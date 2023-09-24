@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Understanding Tokenization: How Are ChatGPT Token Calculated?</title>
+	<script type="application/ld+json">
+	{
+		"@context" : "https://schema.org",
+		"@type" : "WebSite",
+		"name" : "Split Prompt",
+		"url" : "https://www.splitprompt.com/"
+	}
+	</script>
+    <meta name="description" content="When you interact with ChatGPT, every piece of information exchanged is first broken down into small units called tokens. Understanding how tokens are calculated...">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script>
+    	const storedTheme = localStorage.getItem("theme");
+      	const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      	document.documentElement.dataset.theme = storedTheme ?? (prefersDark ? "dark" : "light");
+    </script>
+	<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+	<link rel="icon" href="/assets/images/favicon-dark-48x48.png" type="image/png" sizes="48x48" media="(prefers-color-scheme: dark)">
+	<link rel="icon" href="/assets/images/favicon-dark-32x32.png" type="image/png" sizes="32x32" media="(prefers-color-scheme: dark)">
+	<link rel="icon" href="/assets/images/favicon-dark-16x16.png" type="image/png" sizes="16x16" media="(prefers-color-scheme: dark)">
+	<link rel="icon" href="/assets/images/favicon-light-48x48.png" type="image/png" sizes="48x48">
+	<link rel="icon" href="/assets/images/favicon-light-32x32.png" type="image/png" sizes="32x32">
+	<link rel="icon" href="/assets/images/favicon-light-16x16.png" type="image/png" sizes="16x16">
+	<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+	<link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../css/blog-styles.css">
+</head>
+<body>
+	<div itemscope itemtype="https://schema.org/WebSite">
+        <meta itemprop="url" content="https://www.splitprompt.com/"/>
+        <meta itemprop="name" content="Split Prompt"/>
+    </div>
+	<header>
+		<a href="/" class="split-prompt-button no-select">
+			<div class="logo-container">
+				<div class="circle-icon" id="circleUpper"></div>
+				<div class="circle-icon" id="circleLower"></div>
+			</div>
+			<h4 class="title-text">Split&nbsp;Prompt</h4>
+			<div class="try-button">TRY&nbsp;NOW</div>
+		</a>
+		<div id="themeToggle" class="theme-toggle" tabindex="0" role="button" aria-pressed="false">
+			<svg id="sunSvg" viewBox="0 0 24 24" class="theme-svg" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4" fill="#eeeeee"/><path stroke="#eeeeee" stroke-linecap="round" stroke-width="2" d="M12 5V3M12 21v-2M16.95 7.05l1.41-1.41M5.64 18.36l1.41-1.41M19 12h2M3 12h2M16.95 16.95l1.41 1.41M5.64 5.64l1.41 1.41"/></svg>
+			<svg id="moonSvg" viewBox="0 0 24 24" class="theme-svg" xmlns="http://www.w3.org/2000/svg"><path fill="#141414" d="M12.06 3.6a1 1 0 0 0-.91-1.56 10 10 0 1 0 10.81 10.81 1 1 0 0 0-1.56-.9 6 6 0 0 1-8.34-8.34Z"/></svg>  
+		</div>
+	</header>
+    <main>
+        <h1>Understanding Tokenization: How Are ChatGPT Token Calculated?</h1>
+		<hr>
+		<h5>By <a href="/">Split Prompt</a> &nbsp;<span class="middot">&middot;</span>&nbsp; 2 min read &nbsp;<span class="middot">&middot;</span>&nbsp; 23 Sep 2023</h5>
+		<hr>
+		<p>When you interact with ChatGPT, every piece of information exchanged is first broken down into small units called tokens. Understanding how tokens are calculated is essential, especially for monitoring API usage and ensuring interactions stay within token limits.</p>
+		<h3>How ChatGPT Tokenization Works</h3>
+		<ol>
+			<li><b>Base Representation:</b> All text is first represented in terms of Unicode characters, allowing for broad recognition across diverse languages</li>
+			<li><b>Byte Pair Encoding (BPE):</b> BPE works by iteratively merging the most frequent pairs, creating a dictionary of common Unicode character sequences, known of as tokens</li>
+		</ol>
+		<h3>Differences Between Encoding Methods</h3>
+		<p>The exact number of tokens calculated is dependent on the encoder used. Modern encoders contain more tokens, for instance, cl100k_base has approximately 100,000 tokens. This reduces the number of tokens in a given text, as rarer character combinations are detected and accounted for.</p>
+		<img src="../assets/images/tokenizer-tokenizer.png" />
+		<h6>cl500k_base</h6>
+		<img src="../assets/images/token-izer.png" />
+		<h6>p50k_base / r50k_base</h6>
+		<p>Another key difference between encoders is the handling of whitespace. The older r50k_base encoder is incredibly inefficient as it counts every space as a new token.</p>
+		<h3>Calculating Token Counts - What Encoder Do I Use?</h3>
+		<p>Before considering the below breakdown it is important to note that it only applies to the API model variants. The models available at chat.openai.com appear to use the r50k_base encoder (more info <a href="./beyond-4096-chatgpt-misunderstood-token-limits" target="_blank" rel="noopener noreferrer">here</a>).</p>
+		<img src="../assets/images/encoder-model.png" />
+		<p>You can use this webpage <a href="https://gpt-tokenizer.dev" target="_blank" rel="noopener noreferrer">here</a> to count tokens based on the encoding method of your choice. It uses a JavaScript port of OpenAI's tiktoken called gpt-tokenizer.</p>
+		<p>If you want a more simple way of estimating token count, OpenAI recommends multiplying the number of words by 0.75 as an approximation.</p>
+		<h3>Exceeding Token Limits</h3>
+		<p>Due to the inherent design of ChatGPT, there is a token limit when processing inputs, which means especially lengthy prompts will be rejected by the model. To overcome this limitation, we created Split Prompt. This tool effectively divides longer prompts into manageable chunks, ensuring that the flow of conversation remains smooth and coherent.</p>
+		<div style="height: 100px"></div>
+		<h4 class="center">Our ChatGPT Prompt Splitter:</h4><br/><br/>
+		<a href="/" class="split-prompt-button no-select center">
+			<div class="logo-container">
+				<div class="circle-icon" id="circleUpper"></div>
+				<div class="circle-icon" id="circleLower"></div>
+			</div>
+			<h4 class="title-text">Split&nbsp;Prompt</h4>
+			<div class="try-button">TRY&nbsp;NOW</div>
+		</a>
+		<div style="height: 100px"></div>
+	</main>
+	<script src="../js/theme.js"></script>
+	<script src="../js/blog-script.js"></script>
+</body>
+</html>

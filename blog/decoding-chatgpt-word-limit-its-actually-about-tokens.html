@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Decoding ChatGPT's 'Word' Limit: It's Actually About Tokens</title>
+	<script type="application/ld+json">
+	{
+		"@context" : "https://schema.org",
+		"@type" : "WebSite",
+		"name" : "Split Prompt",
+		"url" : "https://www.splitprompt.com/"
+	}
+	</script>
+    <meta name="description" content="When you interact with ChatGPT, every piece of information exchanged is first broken down into small units called tokens. Understanding how tokens are calculated...">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script>
+    	const storedTheme = localStorage.getItem("theme");
+      	const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      	document.documentElement.dataset.theme = storedTheme ?? (prefersDark ? "dark" : "light");
+    </script>
+	<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+	<link rel="icon" href="/assets/images/favicon-dark-48x48.png" type="image/png" sizes="48x48" media="(prefers-color-scheme: dark)">
+	<link rel="icon" href="/assets/images/favicon-dark-32x32.png" type="image/png" sizes="32x32" media="(prefers-color-scheme: dark)">
+	<link rel="icon" href="/assets/images/favicon-dark-16x16.png" type="image/png" sizes="16x16" media="(prefers-color-scheme: dark)">
+	<link rel="icon" href="/assets/images/favicon-light-48x48.png" type="image/png" sizes="48x48">
+	<link rel="icon" href="/assets/images/favicon-light-32x32.png" type="image/png" sizes="32x32">
+	<link rel="icon" href="/assets/images/favicon-light-16x16.png" type="image/png" sizes="16x16">
+	<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+	<link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../css/blog-styles.css">
+</head>
+<body>
+	<div itemscope itemtype="https://schema.org/WebSite">
+        <meta itemprop="url" content="https://www.splitprompt.com/"/>
+        <meta itemprop="name" content="Split Prompt"/>
+    </div>
+	<header>
+		<a href="/" class="split-prompt-button no-select">
+			<div class="logo-container">
+				<div class="circle-icon" id="circleUpper"></div>
+				<div class="circle-icon" id="circleLower"></div>
+			</div>
+			<h4 class="title-text">Split&nbsp;Prompt</h4>
+			<div class="try-button">TRY&nbsp;NOW</div>
+		</a>
+		<div id="themeToggle" class="theme-toggle" tabindex="0" role="button" aria-pressed="false">
+			<svg id="sunSvg" viewBox="0 0 24 24" class="theme-svg" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4" fill="#eeeeee"/><path stroke="#eeeeee" stroke-linecap="round" stroke-width="2" d="M12 5V3M12 21v-2M16.95 7.05l1.41-1.41M5.64 18.36l1.41-1.41M19 12h2M3 12h2M16.95 16.95l1.41 1.41M5.64 5.64l1.41 1.41"/></svg>
+			<svg id="moonSvg" viewBox="0 0 24 24" class="theme-svg" xmlns="http://www.w3.org/2000/svg"><path fill="#141414" d="M12.06 3.6a1 1 0 0 0-.91-1.56 10 10 0 1 0 10.81 10.81 1 1 0 0 0-1.56-.9 6 6 0 0 1-8.34-8.34Z"/></svg>  
+		</div>
+	</header>
+    <main>
+        <h1>Decoding ChatGPT's 'Word' Limit: It's Actually About Tokens</h1>
+		<hr>
+		<h5>By <a href="/">Split Prompt</a> &nbsp;<span class="middot">&middot;</span>&nbsp; 2 min read &nbsp;<span class="middot">&middot;</span>&nbsp; 24 Sep 2023</h5>
+		<hr>
+		<p>Before we dive deep, it's essential to understand that when we refer to the "word limit" in ChatGPT, we're actually discussing a token limit. ChatGPT does not work in terms of words, but instead tokens, which can be thought of as series of commonly grouped characters. Tokens can encompass a whole word or be as short as a single character.</p>
+		<h3>Why Is There a Limit?</h3>
+		<p>The token limit isn't arbitrary. It's set based on the model's architecture and memory constraints. Processing a vast number of tokens would require a massive amount of computational power and could impact the speed and efficiency of the model.</p>
+		<h3>What are the Token Limits?</h3>
+		<p>The exact token limits depend on the model, and whether it is used on ChatGPT or through the API. However, there is an wide-spread myth of a 4096 token limit. This myth appears to have been perpetuated by ChatGPT itself.</p>
+		<img src="../assets/images/what-limit.png" />
+		<p>Here are ChatGPT's actual token limits:</p>
+		<ul>
+			<li><b>GPT-3.5:</b> 16,362 tokens</li>
+			<li><b>GPT-4:</b> 8,170 tokens</li>
+		</ul>
+		<p>For more information on how these limits were manually discovered click <a href="./beyond-4096-chatgpt-misunderstood-token-limits" target="_blank" rel="noopener noreferrer">here</a>.</p>
+		<h3>Tips to Work Within the Limit</h3>
+		<ul>
+			<li><b>Be Concise:</b> Make your prompts as direct as possible. Every token you save in the prompt gives you room for a more extended response.</li>
+			<li><b>Use a Token Counter:</b> Before sending a prompt to ChatGPT, you can use a token counter tool to know how many tokens you're about to use.</li>
+			<li><b>Divide and Conquer:</b> For longer interactions, consider breaking your content into chunks and interacting with the model multiple times.</li>
+		</ul>
+		<p>Want to automate this process? Try out Split Prompt! Split Prompt divides your long prompts into ChatGPT-friendly segments with the click of a button!</p>
+		<div style="height: 100px"></div>
+		<h4 class="center">Our ChatGPT Prompt Splitter:</h4><br/><br/>
+		<a href="/" class="split-prompt-button no-select center">
+			<div class="logo-container">
+				<div class="circle-icon" id="circleUpper"></div>
+				<div class="circle-icon" id="circleLower"></div>
+			</div>
+			<h4 class="title-text">Split&nbsp;Prompt</h4>
+			<div class="try-button">TRY&nbsp;NOW</div>
+		</a>
+		<div style="height: 100px"></div>
+	</main>
+	<script src="../js/theme.js"></script>
+	<script src="../js/blog-script.js"></script>
+</body>
+</html>
